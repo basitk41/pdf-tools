@@ -1,0 +1,71 @@
+{
+  "common": {
+    "title": "PDF Tools",
+    "privacy_disclaimer": "Your uploaded files are not saved or stored on our servers. All processing is handled locally on your browser for your privacy and security.",
+    "give_feedback": "Give Feedback",
+    "feedback_success": "Thank you for your feedback! We’ll use it to improve our service.",
+    "name": "Name",
+    "email": "Email",
+    "feedback": "Feedback",
+    "submit": "Submit",
+    "home": "Home",
+    "select_files": "Select Files",
+    "merged_pdf": "Merged PDF",
+    "download": "Download"
+  },
+  "tools": {
+    "merge_pdf": {
+      "title": "Merge PDF",
+      "description": "Combine multiple PDF files into one."
+    },
+    "split_pdf": {
+      "title": "Split PDF",
+      "description": "Extract pages from a PDF file."
+    },
+    "edit_pdf": {
+      "title": "Edit PDF",
+      "description": "Edit, delete, replace text, insert digital signature, upload signature image."
+    },
+    "pdf_to_word": {
+      "title": "PDF to Word",
+      "description": "Convert PDF files to editable Word documents."
+    },
+    "word_to_pdf": {
+      "title": "Word to PDF",
+      "description": "Convert Word documents to PDF files."
+    },
+    "pdf_to_powerpoint": {
+      "title": "PDF to PowerPoint",
+      "description": "Convert PDF files to PowerPoint presentations."
+    },
+    "powerpoint_to_pdf": {
+      "title": "PowerPoint to PDF",
+      "description": "Convert PowerPoint presentations to PDF files."
+    },
+    "pdf_to_jpg": {
+      "title": "PDF to JPG",
+      "description": "Convert PDF pages to JPG images."
+    },
+    "pdf_to_png": {
+      "title": "PDF to PNG",
+      "description": "Convert PDF pages to PNG images."
+    },
+    "image_to_pdf": {
+      "title": "Image to PDF",
+      "description": "Convert JPG, PNG, and other images to PDF."
+    },
+    "pdf_to_html": {
+      "title": "PDF to HTML",
+      "description": "Convert PDF files to HTML."
+    }
+  },
+  "not_found": {
+    "title": "Page Not Found",
+    "description": "The page you are looking for does not exist."
+  },
+  "language": {
+    "en": "English",
+    "de": "German",
+    "switch": "Switch to {{lang}}"
+  }
+}

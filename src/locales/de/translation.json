@@ -1,0 +1,71 @@
+{
+  "common": {
+    "title": "PDF-Tools",
+    "privacy_disclaimer": "Ihre hochgeladenen Dateien werden nicht auf unseren Servern gespeichert. Die gesamte Verarbeitung erfolgt lokal in Ihrem Browser, um Ihre Privatsphäre und Sicherheit zu gewährleisten.",
+    "give_feedback": "Feedback geben",
+    "feedback_success": "Danke für Ihr Feedback! Wir werden es nutzen, um unseren Service zu verbessern.",
+    "name": "Name",
+    "email": "Email",
+    "feedback": "Feedback",
+    "submit": "Senden",
+    "home": "Startseite",
+    "select_files": "Dateien auswählen",
+    "merged_pdf": "Zusammengefügte PDF",
+    "download": "Herunterladen"
+  },
+  "tools": {
+    "merge_pdf": {
+      "title": "PDF zusammenführen",
+      "description": "Mehrere PDF-Dateien zu einer zusammenfassen."
+    },
+    "split_pdf": {
+      "title": "PDF aufteilen",
+      "description": "Seiten aus einer PDF-Datei extrahieren."
+    },
+    "edit_pdf": {
+      "title": "PDF bearbeiten",
+      "description": "Text bearbeiten, löschen, ersetzen, digitale Signatur einfügen, Signaturbild hochladen."
+    },
+    "pdf_to_word": {
+      "title": "PDF zu Word",
+      "description": "PDF-Dateien in bearbeitbare Word-Dokumente umwandeln."
+    },
+    "word_to_pdf": {
+      "title": "Word zu PDF",
+      "description": "Word-Dokumente in PDF-Dateien umwandeln."
+    },
+    "pdf_to_powerpoint": {
+      "title": "PDF zu PowerPoint",
+      "description": "PDF-Dateien in PowerPoint-Präsentationen umwandeln."
+    },
+    "powerpoint_to_pdf": {
+      "title": "PowerPoint zu PDF",
+      "description": "PowerPoint-Präsentationen in PDF-Dateien umwandeln."
+    },
+    "pdf_to_jpg": {
+      "title": "PDF zu JPG",
+      "description": "PDF-Seiten in JPG-Bilder umwandeln."
+    },
+    "pdf_to_png": {
+      "title": "PDF zu PNG",
+      "description": "PDF-Seiten in PNG-Bilder umwandeln."
+    },
+    "image_to_pdf": {
+      "title": "Bild zu PDF",
+      "description": "JPG-, PNG- und andere Bilder in PDF umwandeln."
+    },
+    "pdf_to_html": {
+      "title": "PDF zu HTML",
+      "description": "PDF-Dateien in HTML umwandeln."
+    }
+  },
+  "not_found": {
+    "title": "Seite nicht gefunden",
+    "description": "Die von Ihnen gesuchte Seite existiert nicht."
+  },
+  "language": {
+    "en": "Englisch",
+    "de": "Deutsch",
+    "switch": "Wechseln zu {{lang}}"
+  }
+}
