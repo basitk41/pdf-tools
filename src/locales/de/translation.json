@@ -165,5 +165,26 @@
       "title": "Kontakt aufnehmen",
       "paragraph1": "Haben Sie Fragen, Feedback oder Vorschläge? Wir würden uns freuen, von Ihnen zu hören! Kontaktieren Sie uns unter support@pdfflyer.com."
     }
+  },
+  "contact_page": {
+    "title": "Kontaktieren Sie uns",
+    "intro": {
+      "paragraph1": "Wir würden uns freuen, von Ihnen zu hören! Egal, ob Sie eine Frage, Feedback oder einen Vorschlag haben, zögern Sie nicht, uns über das untenstehende Formular oder über unsere Kontaktinformationen zu kontaktieren."
+    },
+    "form": {
+      "title": "Kontaktformular",
+      "name": "Ihr Name",
+      "email": "Ihre E-Mail",
+      "subject": "Betreff",
+      "message": "Ihre Nachricht",
+      "submit_button": "Nachricht senden"
+    },
+    "info": {
+      "title": "Kontaktinformationen",
+      "email_label": "E-Mail",
+      "email_address": "support@pdfflyer.com"
+    },
+    "success_message": "Vielen Dank für Ihre Nachricht! Wir werden uns in Kürze bei Ihnen melden.",
+    "error_message": "Beim Senden Ihrer Nachricht ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut."
   }
 }
