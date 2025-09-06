@@ -7,6 +7,8 @@ import NotFound from "./pages/NotFound";
 import MergePdf from "./pages/MergePdf";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
 
 const App = () => (
   <I18nextProvider i18n={i18n}>
@@ -17,6 +19,8 @@ const App = () => (
           <Route path="/merge_pdf" element={<MergePdf />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<TermsOfService />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Route>

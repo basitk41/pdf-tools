@@ -186,5 +186,71 @@
     },
     "success_message": "Vielen Dank für Ihre Nachricht! Wir werden uns in Kürze bei Ihnen melden.",
     "error_message": "Beim Senden Ihrer Nachricht ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut."
+  },
+  "privacy_policy": {
+    "title": "Datenschutz-Bestimmungen",
+    "last_updated": "Zuletzt aktualisiert: 6. September 2025",
+    "intro": {
+      "paragraph1": "Diese Datenschutzrichtlinie beschreibt Unsere Richtlinien und Verfahren zur Erfassung, Verwendung und Offenlegung Ihrer Informationen, wenn Sie den Dienst nutzen, und informiert Sie über Ihre Datenschutzrechte und wie das Gesetz Sie schützt."
+    },
+    "information_we_collect": {
+      "title": "Informationen, die wir sammeln",
+      "paragraph1": "Wir sammeln keine personenbezogenen Daten von Ihnen, wenn Sie PDF Flyer nutzen. Die gesamte Dateiverarbeitung erfolgt lokal in Ihrem Browser. Ihre Dateien verlassen Ihr Gerät niemals und werden nicht auf Unseren Servern gespeichert."
+    },
+    "how_we_use_your_information": {
+      "title": "Wie wir Ihre Informationen verwenden",
+      "paragraph1": "Da Wir keine personenbezogenen Daten sammeln, verwenden Wir Ihre Informationen in keiner Weise."
+    },
+    "data_security": {
+      "title": "Datensicherheit",
+      "paragraph1": "Wir verpflichten uns, die Sicherheit Ihrer Informationen zu gewährleisten. Um unbefugten Zugriff oder Offenlegung zu verhindern, haben Wir geeignete physische, elektronische und verwaltungstechnische Verfahren eingerichtet, um die von Uns online gesammelten Informationen zu schützen und zu sichern. Da Wir jedoch keine Daten sammeln, dient dieser Abschnitt hauptsächlich als allgemeine Erklärung Unseres Engagements für Sicherheitsprinzipien."
+    },
+    "changes_to_this_policy": {
+      "title": "Änderungen dieser Datenschutzrichtlinie",
+      "paragraph1": "Wir können Unsere Datenschutzrichtlinie von Zeit zu Zeit aktualisieren. Wir werden Sie über Änderungen informieren, indem Wir die neue Datenschutzrichtlinie auf dieser Seite veröffentlichen. Es wird Ihnen empfohlen, diese Datenschutzrichtlinie regelmäßig auf Änderungen zu überprüfen. Änderungen dieser Datenschutzrichtlinie werden wirksam, wenn sie auf dieser Seite veröffentlicht werden."
+    },
+    "contact_us": {
+      "title": "Kontaktieren Sie uns",
+      "paragraph1": "Wenn Sie Fragen zu dieser Datenschutzrichtlinie haben, können Sie uns kontaktieren: Per E-Mail: support@pdfflyer.com"
+    }
+  },
+  "terms_of_service": {
+    "title": "Nutzungsbedingungen",
+    "last_updated": "Zuletzt aktualisiert: 6. September 2025",
+    "intro": {
+      "paragraph1": "Bitte lesen Sie diese Nutzungsbedingungen sorgfältig durch, bevor Sie Unseren Dienst nutzen."
+    },
+    "acceptance_of_terms": {
+      "title": "Annahme der Bedingungen",
+      "paragraph1": "Durch den Zugriff auf oder die Nutzung des Dienstes erklären Sie sich mit diesen Bedingungen einverstanden. Wenn Sie mit einem Teil der Bedingungen nicht einverstanden sind, dürfen Sie den Dienst nicht nutzen."
+    },
+    "use_of_service": {
+      "title": "Nutzung des Dienstes",
+      "paragraph1": "PDF Flyer bietet Online-Tools zur PDF-Bearbeitung. Sie erklären sich damit einverstanden, den Dienst nur für rechtmäßige Zwecke und in einer Weise zu nutzen, die die Rechte anderer nicht verletzt oder deren Nutzung und Freude am Dienst nicht einschränkt oder behindert."
+    },
+    "intellectual_property": {
+      "title": "Geistiges Eigentum",
+      "paragraph1": "Der Dienst und seine ursprünglichen Inhalte (ausgenommen Inhalte, die von Ihnen oder anderen Nutzern bereitgestellt werden), Funktionen und Funktionalitäten sind und bleiben das ausschließliche Eigentum von PDF Flyer und seinen Lizenzgebern."
+    },
+    "disclaimer_of_warranties": {
+      "title": "Haftungsausschluss",
+      "paragraph1": "Der Dienst wird \"WIE BESEHEN\" und \"WIE VERFÜGBAR\" bereitgestellt. PDF Flyer gibt keine Zusicherungen oder Garantien jeglicher Art, weder ausdrücklich noch stillschweigend, hinsichtlich des Betriebs ihres Dienstes oder der darin enthaltenen Informationen, Inhalte oder Materialien."
+    },
+    "limitation_of_liability": {
+      "title": "Haftungsbeschränkung",
+      "paragraph1": "In keinem Fall haften PDF Flyer, noch seine Direktoren, Mitarbeiter, Partner, Vertreter, Lieferanten oder verbundenen Unternehmen für indirekte, zufällige, besondere, Folge- oder Strafschäden, einschließlich, aber nicht beschränkt auf, entgangenen Gewinn, Daten, Nutzung, Goodwill oder andere immaterielle Verluste, die sich aus (i) Ihrem Zugriff auf oder Ihrer Nutzung oder der Unfähigkeit zur Nutzung des Dienstes ergeben; (iii) jeglichem aus dem Dienst erhaltenen Inhalt; und (iv) unbefugtem Zugriff, Nutzung oder Änderung Ihrer Übertragungen oder Inhalte, sei es aufgrund von Garantie, Vertrag, unerlaubter Handlung (einschließlich Fahrlässigkeit) oder einer anderen Rechtstheorie, unabhängig davon, ob Wir über die Möglichkeit solcher Schäden informiert wurden, und selbst wenn ein hierin festgelegtes Rechtsmittel seinen wesentlichen Zweck verfehlt hat."
+    },
+    "changes_to_terms": {
+      "title": "Änderungen dieser Nutzungsbedingungen",
+      "paragraph1": "Wir behalten uns das Recht vor, nach eigenem Ermessen diese Bedingungen jederzeit zu ändern oder zu ersetzen. Wenn eine Überarbeitung wesentlich ist, werden Wir angemessene Anstrengungen unternehmen, um mindestens 30 Tage vor Inkrafttreten neuer Bedingungen eine Benachrichtigung zu senden. Was eine wesentliche Änderung darstellt, wird nach Unserem alleinigen Ermessen bestimmt."
+    },
+    "governing_law": {
+      "title": "Geltendes Recht",
+      "paragraph1": "Diese Bedingungen unterliegen den Gesetzen von Berlin, Deutschland, und werden in Übereinstimmung mit diesen ausgelegt, ohne Rücksicht auf Kollisionsnormen."
+    },
+    "contact_us": {
+      "title": "Kontaktieren Sie uns",
+      "paragraph1": "Wenn Sie Fragen zu diesen Nutzungsbedingungen haben, können Sie uns kontaktieren: Per E-Mail: support@pdfflyer.com"
+    }
   }
 }
