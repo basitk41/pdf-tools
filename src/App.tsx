@@ -5,6 +5,7 @@ import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import MergePdf from "./pages/MergePdf";
+import About from "./pages/About";
 
 const App = () => (
   <I18nextProvider i18n={i18n}>
@@ -13,6 +14,7 @@ const App = () => (
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/merge_pdf" element={<MergePdf />} />
+          <Route path="/about" element={<About />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Route>

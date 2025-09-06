@@ -126,5 +126,44 @@
       "title": "Komplett frei",
       "description": "Alle unsere PDF-Tools können kostenlos und ohne versteckte Kosten oder Einschränkungen verwendet werden."
     }
+  },
+  "about": {
+    "title": "Über PDF Flyer",
+    "intro": {
+      "title": "Willkommen bei PDF Flyer",
+      "paragraph1": "PDF Flyer ist Ihre zentrale Online-Plattform für alle Ihre PDF-Bedürfnisse. Wir bieten eine umfassende Suite von Tools, mit denen Sie Ihre PDF-Dokumente einfach und effizient konvertieren, bearbeiten, zusammenführen, teilen und verwalten können.",
+      "paragraph2": "Unsere Mission ist es, die Dokumentenverwaltung für jedermann zu vereinfachen. Egal, ob Sie Student, Berufstätiger oder einfach jemand sind, der regelmäßig mit PDFs zu tun hat, PDF Flyer bietet intuitive und leistungsstarke Tools, um Ihren Workflow zu optimieren."
+    },
+    "mission": {
+      "title": "Unsere Mission",
+      "paragraph1": "Bei PDF Flyer glauben wir daran, leistungsstarke Tools für jedermann zugänglich zu machen. Unsere Mission ist es, eine kostenlose, sichere und benutzerfreundliche Plattform bereitzustellen, die Einzelpersonen und Unternehmen befähigt, ihre PDF-Dokumente zu verwalten, ohne Kompromisse bei Datenschutz oder Qualität einzugehen."
+    },
+    "key_features": {
+      "title": "Hauptmerkmale",
+      "privacy": {
+        "title": "Datenschutzorientiert",
+        "description": "Ihre Privatsphäre hat für uns oberste Priorität. Die gesamte Dateiverarbeitung erfolgt direkt in Ihrem Browser, wodurch sichergestellt wird, dass Ihre sensiblen Dokumente niemals Ihren Computer verlassen oder unsere Server berühren."
+      },
+      "speed": {
+        "title": "Blitzschnell",
+        "description": "Erleben Sie blitzschnelle Verarbeitungsgeschwindigkeiten. Da alles lokal erfolgt, gibt es keine Wartezeiten für Uploads oder Downloads, was Ihnen sofortige Ergebnisse liefert."
+      },
+      "cost": {
+        "title": "Komplett kostenlos",
+        "description": "Genießen Sie unbegrenzten Zugriff auf alle unsere Tools ohne versteckte Kosten, Abonnements oder Einschränkungen. PDF Flyer ist wirklich kostenlos für jedermann."
+      }
+    },
+    "tech_stack": {
+      "title": "Unsere Technologie",
+      "description": "PDF Flyer wurde mit modernen Webtechnologien entwickelt, um eine reibungslose, reaktionsschnelle und sichere Benutzererfahrung zu gewährleisten. Wir nutzen die Leistungsfähigkeit von React für ein dynamisches Frontend, Vite für eine schnelle Entwicklungsumgebung und Tailwind CSS für ein schlankes und anpassbares Design. Unsere clientseitige Verarbeitung wird durch robuste JavaScript-Bibliotheken unterstützt."
+    },
+    "team": {
+      "title": "Das Team hinter PDF Flyer",
+      "paragraph1": "PDF Flyer wird von einem leidenschaftlichen Ingenieurteam entwickelt und gewartet, das sich der Erstellung hochwertiger, datenschutzfreundlicher Webanwendungen verschrieben hat. Wir sind bestrebt, uns kontinuierlich zu verbessern und Ihnen die besten PDF-Tools zur Verfügung zu stellen."
+    },
+    "contact": {
+      "title": "Kontakt aufnehmen",
+      "paragraph1": "Haben Sie Fragen, Feedback oder Vorschläge? Wir würden uns freuen, von Ihnen zu hören! Kontaktieren Sie uns unter support@pdfflyer.com."
+    }
   }
 }

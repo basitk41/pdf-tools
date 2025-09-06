@@ -126,5 +126,44 @@
       "title": "Completely Free",
       "description": "All our PDF tools are free to use with no hidden costs or limitations."
     }
+  },
+  "about": {
+    "title": "About PDF Flyer",
+    "intro": {
+      "title": "Welcome to PDF Flyer",
+      "paragraph1": "PDF Flyer is your go-to online platform for all your PDF needs. We provide a comprehensive suite of tools designed to help you convert, edit, merge, split, and manage your PDF documents with ease and efficiency.",
+      "paragraph2": "Our mission is to simplify document management for everyone. Whether you're a student, professional, or just someone who deals with PDFs regularly, PDF Flyer offers intuitive and powerful tools to streamline your workflow."
+    },
+    "mission": {
+      "title": "Our Mission",
+      "paragraph1": "At PDF Flyer, we believe in making powerful tools accessible to everyone. Our mission is to provide a free, secure, and user-friendly platform that empowers individuals and businesses to handle their PDF documents without compromising on privacy or quality."
+    },
+    "key_features": {
+      "title": "Key Features",
+      "privacy": {
+        "title": "Privacy-Focused",
+        "description": "Your privacy is our top priority. All file processing happens directly in your browser, ensuring that your sensitive documents never leave your computer or touch our servers."
+      },
+      "speed": {
+        "title": "Blazing Fast",
+        "description": "Experience lightning-fast processing speeds. Since everything is done locally, there's no waiting for uploads or downloads, giving you instant results."
+      },
+      "cost": {
+        "title": "Completely Free",
+        "description": "Enjoy unlimited access to all our tools without any hidden costs, subscriptions, or limitations. PDF Flyer is truly free for everyone."
+      }
+    },
+    "tech_stack": {
+      "title": "Our Technology",
+      "description": "PDF Flyer is built with modern web technologies to ensure a smooth, responsive, and secure user experience. We leverage the power of React for a dynamic frontend, Vite for a fast development environment, and Tailwind CSS for a sleek and customizable design. Our client-side processing is powered by robust JavaScript libraries."
+    },
+    "team": {
+      "title": "The Team Behind PDF Flyer",
+      "paragraph1": "PDF Flyer is developed and maintained by a passionate team of engineers dedicated to creating high-quality, privacy-respecting web applications. We are committed to continuous improvement and bringing you the best PDF tools."
+    },
+    "contact": {
+      "title": "Get in Touch",
+      "paragraph1": "Have questions, feedback, or suggestions? We'd love to hear from you! Reach out to us at support@pdfflyer.com."
+    }
   }
 }
