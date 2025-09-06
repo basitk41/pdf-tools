@@ -163,7 +163,7 @@
     },
     "contact": {
       "title": "Kontakt aufnehmen",
-      "paragraph1": "Haben Sie Fragen, Feedback oder Vorschläge? Wir würden uns freuen, von Ihnen zu hören! Kontaktieren Sie uns unter support@pdfflyer.com."
+      "paragraph1": "Haben Sie Fragen, Feedback oder Vorschläge? Wir würden uns freuen, von Ihnen zu hören! Kontaktieren Sie uns unter info@pdflyer.com."
     }
   },
   "contact_page": {
@@ -182,7 +182,7 @@
     "info": {
       "title": "Kontaktinformationen",
       "email_label": "E-Mail",
-      "email_address": "support@pdfflyer.com"
+      "email_address": "info@pdflyer.com"
     },
     "disclaimer": "Mit der Absendung dieses Formulars stimmen Sie der Verarbeitung Ihrer Daten in Verbindung mit unserer Datenschutzrichtlinie zu.",
     "success_message": "Vielen Dank für Ihre Nachricht! Wir werden uns in Kürze bei Ihnen melden.",
@@ -212,7 +212,7 @@
     },
     "contact_us": {
       "title": "Kontaktieren Sie uns",
-      "paragraph1": "Wenn Sie Fragen zu dieser Datenschutzrichtlinie haben, können Sie uns kontaktieren: Per E-Mail: support@pdfflyer.com"
+      "paragraph1": "Wenn Sie Fragen zu dieser Datenschutzrichtlinie haben, können Sie uns kontaktieren: Per E-Mail: info@pdflyer.com"
     }
   },
   "terms_of_service": {
@@ -251,7 +251,7 @@
     },
     "contact_us": {
       "title": "Kontaktieren Sie uns",
-      "paragraph1": "Wenn Sie Fragen zu diesen Nutzungsbedingungen haben, können Sie uns kontaktieren: Per E-Mail: support@pdfflyer.com"
+      "paragraph1": "Wenn Sie Fragen zu diesen Nutzungsbedingungen haben, können Sie uns kontaktieren: Per E-Mail: info@pdflyer.com"
     }
   }
 }

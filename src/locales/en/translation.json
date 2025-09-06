@@ -163,7 +163,7 @@
     },
     "contact": {
       "title": "Get in Touch",
-      "paragraph1": "Have questions, feedback, or suggestions? We'd love to hear from you! Reach out to us at support@pdfflyer.com."
+      "paragraph1": "Have questions, feedback, or suggestions? We'd love to hear from you! Reach out to us at info@pdflyer.com."
     }
   },
   "contact_page": {
@@ -182,7 +182,7 @@
     "info": {
       "title": "Contact Information",
       "email_label": "Email",
-      "email_address": "support@pdfflyer.com"
+      "email_address": "info@pdflyer.com"
     },
     "disclaimer": "By submitting this form, you agree to the processing of your data in accordance with our Privacy Policy.",
     "success_message": "Thank you for your message! We will get back to you shortly.",
@@ -212,7 +212,7 @@
     },
     "contact_us": {
       "title": "Contact Us",
-      "paragraph1": "If you have any questions about this Privacy Policy, You can contact us: By email: support@pdfflyer.com"
+      "paragraph1": "If you have any questions about this Privacy Policy, You can contact us: By email: info@pdflyer.com"
     }
   },
   "terms_of_service": {
@@ -251,7 +251,7 @@
     },
     "contact_us": {
       "title": "Contact Us",
-      "paragraph1": "If you have any questions about these Terms of Service, You can contact us: By email: support@pdfflyer.com"
+      "paragraph1": "If you have any questions about these Terms of Service, You can contact us: By email: info@pdflyer.com"
     }
   }
 }
