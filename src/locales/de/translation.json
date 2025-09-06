@@ -23,6 +23,13 @@
     "conversion_success_message": "Ihre PDF wurde erfolgreich konvertiert.",
     "download_merged_pdf": "Zusammengeführte PDF herunterladen"
   },
+  "chat": {
+    "title": "Chat mit Support",
+    "description": "Wir sind hier, um zu helfen!",
+    "initial_message": "Hallo! Wie kann ich Ihnen heute helfen?",
+    "auto_response": "Vielen Dank für Ihre Nachricht. Ein Support-Mitarbeiter wird sich in Kürze bei Ihnen melden.",
+    "type_message_placeholder": "Geben Sie Ihre Nachricht ein..."
+  },
   "tools": {
     "merge_pdf": {
       "title": "PDF zusammenführen",
