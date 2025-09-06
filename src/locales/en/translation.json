@@ -184,6 +184,7 @@
       "email_label": "Email",
       "email_address": "support@pdfflyer.com"
     },
+    "disclaimer": "By submitting this form, you agree to the processing of your data in accordance with our Privacy Policy.",
     "success_message": "Thank you for your message! We will get back to you shortly.",
     "error_message": "There was an error sending your message. Please try again later."
   },

@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import ToolCard from './ToolCard';
+import { motion } from 'framer-motion';
 import {
   FileType,
   FileText,
@@ -65,16 +66,36 @@ const ToolGrid = () => {
   ];
 
   return (
-    <section id='tools' className='py-16'>
-      <div className='container mx-auto px-4'>
-        <h2 className='text-3xl font-bold text-center text-gray-800 mb-12 dark:text-white'>
+    <section id='tools' className='py-20 bg-gray-50 dark:bg-gray-900'>
+      <div className='container mx-auto px-6'>
+        <h2 className='text-4xl font-extrabold text-center text-gray-800 mb-16 dark:text-white'>
           {t('nav.tools')}
         </h2>
-        <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
+        <motion.div
+          className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8'
+          variants={{
+            hidden: { opacity: 1 },
+            visible: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.1,
+              },
+            },
+          }}
+          initial='hidden'
+          animate='visible'
+        >
           {tools.map((tool) => (
-            <ToolCard key={tool.to} {...tool} />
+            <ToolCard
+              key={tool.to}
+              {...tool}
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0 },
+              }}
+            />
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -1,103 +1,207 @@
 import { useTranslation } from 'react-i18next';
 import { ShieldCheck, Zap, CircleDollarSign } from 'lucide-react';
+import { motion } from 'framer-motion';
+import type { Variants } from 'framer-motion';
 
 const About = () => {
   const { t } = useTranslation();
 
-  return (
-    <div className='container mx-auto px-8 py-8'>
-      <h1 className='text-4xl font-bold text-center mb-12 dark:text-white'>
-        {t('about.title')}
-      </h1>
+  const sectionVariants: Variants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: 'easeOut' },
+    },
+  };
 
-      <section className='mb-12'>
-        <h2 className='text-3xl font-semibold mb-6 dark:text-white'>
+  const iconVariants = {
+    hover: { scale: 1.1, rotate: 5, transition: { duration: 0.3 } },
+  };
+
+  return (
+    <div className='container mx-auto px-8 py-12'>
+      <motion.h1
+        className='text-5xl font-extrabold text-center mb-16 text-gray-900 dark:text-white'
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}
+      >
+        {t('about.title')}
+      </motion.h1>
+
+      <motion.section
+        className='mb-16 p-8 bg-white rounded-lg shadow-md dark:bg-gray-800'
+        variants={sectionVariants}
+        initial='hidden'
+        whileInView='visible'
+        viewport={{ once: true, amount: 0.3 }}
+      >
+        <motion.h2
+          className='text-4xl font-bold mb-6 text-gray-800 dark:text-white leading-tight'
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+        >
           {t('about.intro.title')}
-        </h2>
-        <p className='text-lg text-gray-700 mb-4 dark:text-gray-300'>
+        </motion.h2>
+        <p className='text-lg text-gray-700 mb-4 dark:text-gray-300 leading-relaxed'>
           {t('about.intro.paragraph1')}
         </p>
-        <p className='text-lg text-gray-700 dark:text-gray-300'>
+        <p className='text-lg text-gray-700 dark:text-gray-300 leading-relaxed'>
           {t('about.intro.paragraph2')}
         </p>
-      </section>
+      </motion.section>
 
-      <section className='mb-12'>
-        <h2 className='text-3xl font-semibold mb-6 dark:text-white'>
+      <motion.section
+        className='mb-16 p-8 bg-white rounded-lg shadow-md dark:bg-gray-800'
+        variants={sectionVariants}
+        initial='hidden'
+        whileInView='visible'
+        viewport={{ once: true, amount: 0.3 }}
+      >
+        <motion.h2
+          className='text-4xl font-bold mb-6 text-gray-800 dark:text-white leading-tight'
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+        >
           {t('about.mission.title')}
-        </h2>
-        <p className='text-lg text-gray-700 dark:text-gray-300'>
+        </motion.h2>
+        <p className='text-lg text-gray-700 dark:text-gray-300 leading-relaxed'>
           {t('about.mission.paragraph1')}
         </p>
-      </section>
+      </motion.section>
 
-      <section className='mb-12'>
-        <h2 className='text-3xl font-semibold mb-6 dark:text-white'>
+      <motion.section
+        className='mb-16 p-8 bg-blue-50 rounded-lg shadow-inner dark:bg-gray-900 dark:shadow-none'
+        variants={sectionVariants}
+        initial='hidden'
+        whileInView='visible'
+        viewport={{ once: true, amount: 0.3 }}
+      >
+        <motion.h2
+          className='text-4xl font-bold mb-12 text-center text-blue-800 dark:text-blue-300 leading-tight'
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+        >
           {t('about.key_features.title')}
-        </h2>
-        <div className='grid md:grid-cols-3 gap-8'>
-          <div className='bg-white rounded-lg p-6 shadow-md text-center dark:bg-gray-800'>
-            <div className='bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4'>
-              <ShieldCheck className='text-blue-600 w-8 h-8' />
+        </motion.h2>
+        <div className='grid md:grid-cols-3 gap-10'>
+          <motion.div
+            className='bg-white rounded-xl p-8 shadow-lg text-center dark:bg-gray-800 transform hover:scale-105 transition-transform duration-300'
+            whileHover='hover'
+            variants={iconVariants}
+          >
+            <div className='bg-blue-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 text-blue-600 shadow-inner'>
+              <ShieldCheck className='w-10 h-10' />
             </div>
-            <h3 className='text-xl font-semibold text-gray-800 mb-2 dark:text-white'>
+            <h3 className='text-2xl font-semibold text-gray-800 mb-3 dark:text-white'>
               {t('about.key_features.privacy.title')}
             </h3>
-            <p className='text-gray-600 dark:text-gray-400'>
+            <p className='text-gray-600 dark:text-gray-400 text-base leading-relaxed'>
               {t('about.key_features.privacy.description')}
             </p>
-          </div>
-          <div className='bg-white rounded-lg p-6 shadow-md text-center dark:bg-gray-800'>
-            <div className='bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4'>
-              <Zap className='text-green-600 w-8 h-8' />
+          </motion.div>
+          <motion.div
+            className='bg-white rounded-xl p-8 shadow-lg text-center dark:bg-gray-800 transform hover:scale-105 transition-transform duration-300'
+            whileHover='hover'
+            variants={iconVariants}
+          >
+            <div className='bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 text-green-600 shadow-inner'>
+              <Zap className='w-10 h-10' />
             </div>
-            <h3 className='text-xl font-semibold text-gray-800 mb-2 dark:text-white'>
+            <h3 className='text-2xl font-semibold text-gray-800 mb-3 dark:text-white'>
               {t('about.key_features.speed.title')}
             </h3>
-            <p className='text-gray-600 dark:text-gray-400'>
+            <p className='text-gray-600 dark:text-gray-400 text-base leading-relaxed'>
               {t('about.key_features.speed.description')}
             </p>
-          </div>
-          <div className='bg-white rounded-lg p-6 shadow-md text-center dark:bg-gray-800'>
-            <div className='bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4'>
-              <CircleDollarSign className='text-purple-600 w-8 h-8' />
+          </motion.div>
+          <motion.div
+            className='bg-white rounded-xl p-8 shadow-lg text-center dark:bg-gray-800 transform hover:scale-105 transition-transform duration-300'
+            whileHover='hover'
+            variants={iconVariants}
+          >
+            <div className='bg-purple-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 text-purple-600 shadow-inner'>
+              <CircleDollarSign className='w-10 h-10' />
             </div>
-            <h3 className='text-xl font-semibold text-gray-800 mb-2 dark:text-white'>
+            <h3 className='text-2xl font-semibold text-gray-800 mb-3 dark:text-white'>
               {t('about.key_features.cost.title')}
             </h3>
-            <p className='text-gray-600 dark:text-gray-400'>
+            <p className='text-gray-600 dark:text-gray-400 text-base leading-relaxed'>
               {t('about.key_features.cost.description')}
             </p>
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
-      <section className='mb-12'>
-        <h2 className='text-3xl font-semibold mb-6 dark:text-white'>
+      <motion.section
+        className='mb-16 p-8 bg-white rounded-lg shadow-md dark:bg-gray-800'
+        variants={sectionVariants}
+        initial='hidden'
+        whileInView='visible'
+        viewport={{ once: true, amount: 0.3 }}
+      >
+        <motion.h2
+          className='text-4xl font-bold mb-6 text-gray-800 dark:text-white leading-tight'
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+        >
           {t('about.tech_stack.title')}
-        </h2>
-        <p className='text-lg text-gray-700 dark:text-gray-300'>
+        </motion.h2>
+        <p className='text-lg text-gray-700 dark:text-gray-300 leading-relaxed'>
           {t('about.tech_stack.description')}
         </p>
-      </section>
+      </motion.section>
 
-      <section className='mb-12'>
-        <h2 className='text-3xl font-semibold mb-6 dark:text-white'>
+      <motion.section
+        className='mb-16 p-8 bg-white rounded-lg shadow-md dark:bg-gray-800'
+        variants={sectionVariants}
+        initial='hidden'
+        whileInView='visible'
+        viewport={{ once: true, amount: 0.3 }}
+      >
+        <motion.h2
+          className='text-4xl font-bold mb-6 text-gray-800 dark:text-white leading-tight'
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+        >
           {t('about.team.title')}
-        </h2>
-        <p className='text-lg text-gray-700 dark:text-gray-300'>
+        </motion.h2>
+        <p className='text-lg text-gray-700 dark:text-gray-300 leading-relaxed'>
           {t('about.team.paragraph1')}
         </p>
-      </section>
+      </motion.section>
 
-      <section>
-        <h2 className='text-3xl font-semibold mb-6 dark:text-white'>
+      <motion.section
+        className='p-8 bg-white rounded-lg shadow-md dark:bg-gray-800'
+        variants={sectionVariants}
+        initial='hidden'
+        whileInView='visible'
+        viewport={{ once: true, amount: 0.3 }}
+      >
+        <motion.h2
+          className='text-4xl font-bold mb-6 text-gray-800 dark:text-white leading-tight'
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+        >
           {t('about.contact.title')}
-        </h2>
-        <p className='text-lg text-gray-700 dark:text-gray-300'>
+        </motion.h2>
+        <p className='text-lg text-gray-700 dark:text-gray-300 leading-relaxed'>
           {t('about.contact.paragraph1')}
         </p>
-      </section>
+      </motion.section>
     </div>
   );
 };
