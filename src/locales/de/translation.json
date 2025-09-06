@@ -1,6 +1,6 @@
 {
   "common": {
-    "title": "PDF-Tools",
+    "title": "PDF Flyer",
     "privacy_disclaimer": "Ihre hochgeladenen Dateien werden nicht auf unseren Servern gespeichert. Die gesamte Verarbeitung erfolgt lokal in Ihrem Browser, um Ihre Privatsphäre und Sicherheit zu gewährleisten.",
     "give_feedback": "Feedback geben",
     "feedback_success": "Danke für Ihr Feedback! Wir werden es nutzen, um unseren Service zu verbessern.",
@@ -11,7 +11,17 @@
     "home": "Startseite",
     "select_files": "Dateien auswählen",
     "merged_pdf": "Zusammengefügte PDF",
-    "download": "Herunterladen"
+    "download": "Herunterladen",
+    "privacy_note": "Datenschutzhinweis",
+    "drag_and_drop": "Ziehen Sie Ihre PDF-Datei hierher",
+    "or": "oder",
+    "browse_files": "Dateien durchsuchen",
+    "max_file_size": "Maximale Dateigröße: 100MB",
+    "processing": "Verarbeitung",
+    "converting": "Konvertierung",
+    "conversion_complete": "Konvertierung abgeschlossen!",
+    "conversion_success_message": "Ihre PDF wurde erfolgreich konvertiert.",
+    "download_merged_pdf": "Zusammengeführte PDF herunterladen"
   },
   "tools": {
     "merge_pdf": {
@@ -24,7 +34,7 @@
     },
     "edit_pdf": {
       "title": "PDF bearbeiten",
-      "description": "Text bearbeiten, löschen, ersetzen, digitale Signatur einfügen, Signaturbild hochladen."
+      "description": "Text bearbeiten, Signaturen hinzufügen und mehr"
     },
     "pdf_to_word": {
       "title": "PDF zu Word",
@@ -33,6 +43,14 @@
     "word_to_pdf": {
       "title": "Word zu PDF",
       "description": "Word-Dokumente in PDF-Dateien umwandeln."
+    },
+    "pdf_to_excel": {
+      "title": "PDF zu Excel",
+      "description": "Tabellen aus PDF nach Excel extrahieren"
+    },
+    "excel_to_pdf": {
+      "title": "Excel zu PDF",
+      "description": "Excel-Tabellen in PDF umwandeln"
     },
     "pdf_to_powerpoint": {
       "title": "PDF zu PowerPoint",
@@ -67,5 +85,46 @@
     "en": "Englisch",
     "de": "Deutsch",
     "switch": "Wechseln zu {{lang}}"
+  },
+  "nav": {
+    "home": "Startseite",
+    "tools": "Werkzeuge",
+    "about": "Über uns",
+    "contact": "Kontakt"
+  },
+  "footer": {
+    "description": "Alle PDF-Tools, die Sie benötigen, an einem Ort. Kostenlos, sicher und einfach zu bedienen.",
+    "tools": "Werkzeuge",
+    "company": "Firma",
+    "connect": "Verbinden",
+    "about_us": "Über uns",
+    "contact": "Kontakt",
+    "privacy_policy": "Datenschutz-Bestimmungen",
+    "terms_of_service": "Nutzungsbedingungen",
+    "rights_reserved": "Alle Rechte vorbehalten.",
+    "merge_pdf": "PDF zusammenführen",
+    "split_pdf": "PDF teilen",
+    "pdf_to_word": "PDF zu Word",
+    "word_to_pdf": "Word zu PDF"
+  },
+  "hero": {
+    "title": "Alle PDF-Tools, die Sie benötigen, an einem Ort",
+    "subtitle": "Konvertieren, bearbeiten, zusammenführen und teilen Sie PDF-Dateien. 100% kostenlos und sicher - Ihre Dateien verlassen niemals Ihren Computer.",
+    "button": "Werkzeuge erkunden"
+  },
+  "features": {
+    "title": "Warum PDF Flyer wählen?",
+    "secure": {
+      "title": "100% sicher",
+      "description": "Ihre Dateien werden lokal in Ihrem Browser verarbeitet und niemals auf einen Server hochgeladen."
+    },
+    "fast": {
+      "title": "Schnelle Verarbeitung",
+      "description": "Kein Warten auf Datei-Uploads oder -Downloads - verarbeiten Sie Dateien sofort in Ihrem Browser."
+    },
+    "free": {
+      "title": "Komplett frei",
+      "description": "Alle unsere PDF-Tools können kostenlos und ohne versteckte Kosten oder Einschränkungen verwendet werden."
+    }
   }
 }

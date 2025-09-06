@@ -246,3 +246,62 @@
     opacity: 1;
   }
 }
+
+/* Custom animations and styles from template.html */
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.slide-up {
+    animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.tool-card {
+    transition: all 0.3s ease;
+}
+
+.tool-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.drop-zone {
+    border: 2px dashed #cbd5e0;
+    transition: all 0.3s ease;
+}
+
+.drop-zone.dragover {
+    border-color: #4299e1;
+    background-color: #ebf4ff;
+}
+
+.progress-bar {
+    transition: width 0.3s ease;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.option-group {
+    transition: all 0.3s ease;
+}
+
+.option-group:hover {
+    background-color: #f7fafc;
+}

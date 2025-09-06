@@ -1,6 +1,6 @@
 {
   "common": {
-    "title": "PDF Tools",
+    "title": "PDF Flyer",
     "privacy_disclaimer": "Your uploaded files are not saved or stored on our servers. All processing is handled locally on your browser for your privacy and security.",
     "give_feedback": "Give Feedback",
     "feedback_success": "Thank you for your feedback! We’ll use it to improve our service.",
@@ -11,7 +11,17 @@
     "home": "Home",
     "select_files": "Select Files",
     "merged_pdf": "Merged PDF",
-    "download": "Download"
+    "download": "Download",
+    "privacy_note": "Privacy Note",
+    "drag_and_drop": "Drag & drop your PDF file here",
+    "or": "or",
+    "browse_files": "Browse Files",
+    "max_file_size": "Maximum file size: 100MB",
+    "processing": "Processing",
+    "converting": "Converting",
+    "conversion_complete": "Conversion Complete!",
+    "conversion_success_message": "Your PDF has been successfully converted.",
+    "download_merged_pdf": "Download Merged PDF"
   },
   "tools": {
     "merge_pdf": {
@@ -24,7 +34,7 @@
     },
     "edit_pdf": {
       "title": "Edit PDF",
-      "description": "Edit, delete, replace text, insert digital signature, upload signature image."
+      "description": "Edit text, add signatures and more"
     },
     "pdf_to_word": {
       "title": "PDF to Word",
@@ -33,6 +43,14 @@
     "word_to_pdf": {
       "title": "Word to PDF",
       "description": "Convert Word documents to PDF files."
+    },
+    "pdf_to_excel": {
+      "title": "PDF to Excel",
+      "description": "Extract tables from PDF to Excel"
+    },
+    "excel_to_pdf": {
+      "title": "Excel to PDF",
+      "description": "Convert Excel spreadsheets to PDF"
     },
     "pdf_to_powerpoint": {
       "title": "PDF to PowerPoint",
@@ -67,5 +85,46 @@
     "en": "English",
     "de": "German",
     "switch": "Switch to {{lang}}"
+  },
+  "nav": {
+    "home": "Home",
+    "tools": "Tools",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "footer": {
+    "description": "All PDF tools you need in one place. Free, secure, and easy to use.",
+    "tools": "Tools",
+    "company": "Company",
+    "connect": "Connect",
+    "about_us": "About Us",
+    "contact": "Contact",
+    "privacy_policy": "Privacy Policy",
+    "terms_of_service": "Terms of Service",
+    "rights_reserved": "All rights reserved.",
+    "merge_pdf": "Merge PDF",
+    "split_pdf": "Split PDF",
+    "pdf_to_word": "PDF to Word",
+    "word_to_pdf": "Word to PDF"
+  },
+  "hero": {
+    "title": "All PDF Tools You Need in One Place",
+    "subtitle": "Convert, edit, merge and split PDF files. 100% free and secure - your files never leave your computer.",
+    "button": "Explore Tools"
+  },
+  "features": {
+    "title": "Why Choose PDF Flyer?",
+    "secure": {
+      "title": "100% Secure",
+      "description": "Your files are processed locally in your browser and never uploaded to any server."
+    },
+    "fast": {
+      "title": "Fast Processing",
+      "description": "No waiting for file uploads or downloads - process files instantly in your browser."
+    },
+    "free": {
+      "title": "Completely Free",
+      "description": "All our PDF tools are free to use with no hidden costs or limitations."
+    }
   }
 }

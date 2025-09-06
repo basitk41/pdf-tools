@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Flyer - All PDF Tools You Need</title>
+    <meta name="description" content="Free online PDF tools to convert, edit, merge and split PDF files. All processing happens locally in your browser for maximum privacy.">
+    <meta property="og:title" content="PDF Flyer - Free Online PDF Tools">
+    <meta property="og:description" content="Convert, edit, merge and split PDF files with our free online tools. Your files never leave your computer.">
+    <meta property="og:url" content="https://pdflyer.com">
+    <meta property="og:type" content="website">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom animations and styles */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .slide-up {
+            animation: slideUp 0.5s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .tool-card {
+            transition: all 0.3s ease;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .drop-zone {
+            border: 2px dashed #cbd5e0;
+            transition: all 0.3s ease;
+        }
+        
+        .drop-zone.dragover {
+            border-color: #4299e1;
+            background-color: #ebf4ff;
+        }
+        
+        .progress-bar {
+            transition: width 0.3s ease;
+        }
+        
+        /* Page transition */
+        .page {
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        /* Tool specific styles */
+        .option-group {
+            transition: all 0.3s ease;
+        }
+        
+        .option-group:hover {
+            background-color: #f7fafc;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="#" class="flex items-center space-x-2" onclick="showPage('homepage')">
+                <i class="fas fa-file-pdf text-red-600 text-2xl"></i>
+                <span class="text-xl font-bold text-gray-800">PDF Flyer</span>
+            </a>
+            
+            <div class="hidden md:flex space-x-8">
+                <a href="#" class="text-blue-600 font-medium" onclick="showPage('homepage')">Home</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600">Tools</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600">About</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600">Contact</a>
+            </div>
+            
+            <button class="md:hidden text-gray-600" id="mobile-menu-btn">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div class="md:hidden hidden bg-white py-2 px-4 shadow-lg" id="mobile-menu">
+            <a href="#" class="block py-2 text-gray-800 hover:bg-gray-100 rounded px-4" onclick="showPage('homepage')">Home</a>
+            <a href="#" class="block py-2 text-gray-600 hover:bg-gray-100 rounded px-4">Tools</a>
+            <a href="#" class="block py-2 text-gray-600 hover:bg-gray-100 rounded px-4">About</a>
+            <a href="#" class="block py-2 text-gray-600 hover:bg-gray-100 rounded px-4">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Homepage -->
+    <div id="homepage" class="page active">
+        <!-- Hero Section -->
+        <section class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-16">
+            <div class="container mx-auto px-4 text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4 slide-up">All PDF Tools You Need in One Place</h1>
+                <p class="text-xl mb-8 max-w-2xl mx-auto slide-up">Convert, edit, merge and split PDF files. 100% free and secure - your files never leave your computer.</p>
+                <a href="#tools" class="bg-white text-blue-600 font-semibold px-6 py-3 rounded-lg shadow-lg hover:bg-gray-100 transition duration-300 slide-up">Explore Tools</a>
+            </div>
+        </section>
+
+        <!-- Tools Grid -->
+        <section id="tools" class="py-16">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Our PDF Tools</h2>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <!-- PDF to Word -->
+                    <a href="#" class="tool-card bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg" onclick="showPage('pdf-to-word')">
+                        <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-file-word text-blue-600 text-2xl"></i>
+                        </div>
+                        <h3 class="font-semibold text-gray-800">PDF to Word</h3>
+                        <p class="text-sm text-gray-600 mt-2">Convert PDF to editable Word documents</p>
+                    </a>
+                    
+                    <!-- Word to PDF -->
+                    <a href="#" class="tool-card bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg" onclick="showPage('word-to-pdf')">
+                        <div class="bg-red-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-file-pdf text-red-600 text-2xl"></i>
+                        </div>
+                        <h3 class="font-semibold text-gray-800">Word to PDF</h3>
+                        <p class="text-sm text-gray-600 mt-2">Convert Word documents to PDF format</p>
+                    </a>
+                    
+                    <!-- PDF to Excel -->
+                    <a href="#" class="tool-card bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg" onclick="showPage('pdf-to-excel')">
+                        <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-file-excel text-green-600 text-2xl"></i>
+                        </div>
+                        <h3 class="font-semibold text-gray-800">PDF to Excel</h3>
+                        <p class="text-sm text-gray-600 mt-2">Extract tables from PDF to Excel</p>
+                    </a>
+                    
+                    <!-- Excel to PDF -->
+                    <a href="#" class="tool-card bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg" onclick="showPage('excel-to-pdf')">
+                        <div class="bg-red-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-file-pdf text-red-600 text-2xl"></i>
+                        </div>
+                        <h3 class="font-semibold text-gray-800">Excel to PDF</h3>
+                        <p class="text-sm text-gray-600 mt-2">Convert Excel spreadsheets to PDF</p>
+                    </a>
+                    
+                    <!-- PDF to PowerPoint -->
+                    <a href="#" class="tool-card bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg" onclick="showPage('pdf-to-powerpoint')">
+                        <div class="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-file-powerpoint text-orange-600 text-2xl"></i>
+                        </div>
+                        <h3 class="font-semibold text-gray-800">PDF to PowerPoint</h3>
+                        <p class="text-sm text-gray-600 mt-2">Convert PDF to editable presentations</p>
+                    </a>
+                    
+                    <!-- More tools would be listed here following the same pattern -->
+                    
+                    <!-- PDF Editor -->
+                    <a href="#" class="tool-card bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg" onclick="showPage('pdf-editor')">
+                        <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-edit text-purple-600 text-2xl"></i>
+                        </div>
+                        <h3 class="font-semibold text-gray-800">PDF Editor</h3>
+                        <p class="text-sm text-gray-600 mt-2">Edit text, add signatures and more</p>
+                    </a>
+                    
+                    <!-- Merge PDF -->
+                    <a href="#" class="tool-card bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg" onclick="showPage('merge-pdf')">
+                        <div class="bg-yellow-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-object-group text-yellow-600 text-2xl"></i>
+                        </div>
+                        <h3 class="font-semibold text-gray-800">Merge PDF</h3>
+                        <p class="text-sm text-gray-600 mt-2">Combine multiple PDFs into one</p>
+                    </a>
+                    
+                    <!-- Split PDF -->
+                    <a href="#" class="tool-card bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg" onclick="showPage('split-pdf')">
+                        <div class="bg-pink-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-cut text-pink-600 text-2xl"></i>
+                        </div>
+                        <h3 class="font-semibold text-gray-800">Split PDF</h3>
+                        <p class="text-sm text-gray-600 mt-2">Split PDF by pages or extract pages</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="py-16 bg-gray-100">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Why Choose PDF Flyer?</h2>
+                
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white rounded-lg p-6 shadow-md text-center">
+                        <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-shield-alt text-blue-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">100% Secure</h3>
+                        <p class="text-gray-600">Your files are processed locally in your browser and never uploaded to any server.</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg p-6 shadow-md text-center">
+                        <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-bolt text-green-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Fast Processing</h3>
+                        <p class="text-gray-600">No waiting for file uploads or downloads - process files instantly in your browser.</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg p-6 shadow-md text-center">
+                        <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-dollar-sign text-purple-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Completely Free</h3>
+                        <p class="text-gray-600">All our PDF tools are free to use with no hidden costs or limitations.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-white py-12">
+            <div class="container mx-auto px-4">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4">PDF Flyer</h3>
+                        <p class="text-gray-400">All PDF tools you need in one place. Free, secure, and easy to use.</p>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold mb-4">Tools</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-400 hover:text-white" onclick="showPage('pdf-to-word')">PDF to Word</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white" onclick="showPage('word-to-pdf')">Word to PDF</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white" onclick="showPage('merge-pdf')">Merge PDF</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white" onclick="showPage('split-pdf')">Split PDF</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold mb-4">Company</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold mb-4">Connect</h4>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f text-lg"></i></a>
+                            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter text-lg"></i></a>
+                            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram text-lg"></i></a>
+                            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin-in text-lg"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                    <p>&copy; 2023 PDF Flyer. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- PDF to Word Tool Page -->
+    <div id="pdf-to-word" class="page">
+        <div class="container mx-auto px-4 py-8">
+            <!-- Back Button -->
+            <button onclick="showPage('homepage')" class="flex items-center text-blue-600 hover:text-blue-800 mb-6">
+                <i class="fas fa-arrow-left mr-2"></i> Back to Home
+            </button>
+            
+            <!-- Tool Header -->
+            <div class="text-center mb-8">
+                <div class="bg-blue-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-file-word text-blue-600 text-3xl"></i>
+                </div>
+                <h1 class="text-3xl font-bold text-gray-800">PDF to Word Converter</h1>
+                <p class="text-gray-600 mt-2">Convert your PDF files to editable Word documents</p>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="bg-white rounded-xl shadow-lg p-6 max-w-4xl mx-auto">
+                <!-- Privacy Disclaimer -->
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-info-circle text-blue-400 mt-1"></i>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm text-blue-700">
+                                <strong>Privacy Note:</strong> Your uploaded files are not saved or stored on our servers. All processing is handled locally on your browser for your privacy and security.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- File Upload -->
+                <div class="drop-zone border-2 border-dashed rounded-lg p-8 text-center mb-6" id="dropZone">
+                    <i class="fas fa-cloud-upload-alt text-gray-400 text-4xl mb-4"></i>
+                    <p class="text-gray-600 mb-2">Drag & drop your PDF file here</p>
+                    <p class="text-gray-500 text-sm mb-4">or</p>
+                    <label for="file-upload" class="bg-blue-600 text-white px-6 py-2 rounded-lg cursor-pointer hover:bg-blue-700 transition duration-300">
+                        Browse Files
+                    </label>
+                    <input id="file-upload" type="file" class="hidden" accept=".pdf">
+                    <p class="text-gray-400 text-sm mt-4">Maximum file size: 100MB</p>
+                </div>
+                
+                <!-- File Info (hidden by default) -->
+                <div class="bg-gray-50 rounded-lg p-4 mb-6 hidden" id="fileInfo">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <i class="fas fa-file-pdf text-red-500 text-2xl mr-3"></i>
+                            <div>
+                                <p class="font-medium" id="fileName">document.pdf</p>
+                                <p class="text-sm text-gray-500" id="fileSize">2.4 MB</p>
+                            </div>
+                        </div>
+                        <button class="text-red-500 hover:text-red-700" id="removeFile">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Conversion Options -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Conversion Options</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="option-group p-4 border rounded-lg">
+                            <label class="text-gray-700 font-medium">Format</label>
+                            <select class="w-full mt-2 px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                                <option>DOCX (Word Document)</option>
+                                <option>DOC (Word 97-2003)</option>
+                                <option>ODT (OpenDocument Text)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="option-group p-4 border rounded-lg">
+                            <label class="text-gray-700 font-medium">Layout</label>
+                            <select class="w-full mt-2 px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                                <option>Keep original layout</option>
+                                <option>Flow text only</option>
+                            </select>
+                        </div>
+                        
+                        <div class="option-group p-4 border rounded-lg">
+                            <label class="text-gray-700 font-medium">Image Quality</label>
+                            <select class="w-full mt-2 px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                                <option>High</option>
+                                <option>Medium</option>
+                                <option>Low</option>
+                            </select>
+                        </div>
+                        
+                        <div class="option-group p-4 border rounded-lg">
+                            <label class="text-gray-700 font-medium">Language Recognition</label>
+                            <select class="w-full mt-2 px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                                <option>Auto-detect</option>
+                                <option>English</option>
+                                <option>Spanish</option>
+                                <option>French</option>
+                                <option>German</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Action Button -->
+                <button class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300 flex items-center justify-center" id="convertBtn">
+                    Convert to Word
+                </button>
+                
+                <!-- Progress Bar (hidden by default) -->
+                <div class="mt-6 hidden" id="progressSection">
+                    <div class="flex justify-between text-sm text-gray-600 mb-1">
+                        <span>Converting...</span>
+                        <span id="progressPercent">0%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                        <div class="progress-bar bg-blue-600 h-2.5 rounded-full" style="width: 0%" id="progressBar"></div>
+                    </div>
+                </div>
+                
+                <!-- Result Section (hidden by default) -->
+                <div class="mt-6 p-4 bg-green-50 rounded-lg text-center hidden" id="resultSection">
+                    <i class="fas fa-check-circle text-green-500 text-4xl mb-3"></i>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Conversion Complete!</h3>
+                    <p class="text-gray-600 mb-4">Your PDF has been successfully converted to Word format.</p>
+                    <button class="bg-green-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
+                        <i class="fas fa-download mr-2"></i> Download Word Document
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Feedback Button -->
+            <div class="text-center mt-8">
+                <button onclick="openFeedback()" class="text-blue-600 hover:text-blue-800 flex items-center justify-center">
+                    <i class="fas fa-comment-dots mr-2"></i> Give Feedback
+                </button>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-white py-12 mt-12">
+            <div class="container mx-auto px-4">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4">PDF Flyer</h3>
+                        <p class="text-gray-400">All PDF tools you need in one place. Free, secure, and easy to use.</p>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold mb-4">Tools</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-400 hover:text-white" onclick="showPage('pdf-to-word')">PDF to Word</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white" onclick="showPage('word-to-pdf')">Word to PDF</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white" onclick="showPage('merge-pdf')">Merge PDF</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white" onclick="showPage('split-pdf')">Split PDF</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold mb-4">Company</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold mb-4">Connect</h4>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f text-lg"></i></a>
+                            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter text-lg"></i></a>
+                            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram text-lg"></i></a>
+                            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin-in text-lg"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                    <p>&copy; 2023 PDF Flyer. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Feedback Modal -->
+    <div class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50 hidden" id="feedbackModal">
+        <div class="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full mx-4">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Give Feedback</h2>
+                <button onclick="closeFeedback()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="feedbackForm">
+                <div class="mb-4">
+                    <label for="feedbackName" class="block text-gray-700 mb-2">Name</label>
+                    <input type="text" id="feedbackName" class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Your name">
+                </div>
+                
+                <div class="mb-4">
+                    <label for="feedbackEmail" class="block text-gray-700 mb-2">Email</label>
+                    <input type="email" id="feedbackEmail" class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Your email address">
+                </div>
+                
+                <div class="mb-6">
+                    <label for="feedbackMessage" class="block text-gray-700 mb-2">Feedback</label>
+                    <textarea id="feedbackMessage" rows="4" class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Tell us what you think..."></textarea>
+                </div>
+                
+                <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">
+                    Submit Feedback
+                </button>
+            </form>
+            
+            <!-- Success Message (hidden by default) -->
+            <div class="mt-6 p-4 bg-green-50 rounded-lg text-center hidden" id="feedbackSuccess">
+                <i class="fas fa-check-circle text-green-500 text-4xl mb-3"></i>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Thank You!</h3>
+                <p class="text-gray-600">Thank you for your feedback! We'll use it to improve our service.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Google Ads placeholder -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white shadow-lg p-2 text-center hidden">
+        <div class="container mx-auto">
+            <span class="text-sm text-gray-600">Advertisement</span>
+            <div class="bg-gray-200 w-full h-20 flex items-center justify-center">
+                <span class="text-gray-500">Google Ad Placement</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedback Button -->
+    <button id="feedback-btn" class="fixed right-6 bottom-6 bg-blue-600 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center hover:bg-blue-700 transition duration-300 z-40" onclick="openFeedback()">
+        <i class="fas fa-comment-dots text-xl"></i>
+    </button>
+
+    <script>
+        // Page navigation
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show the requested page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+        
+        // Feedback modal
+        function openFeedback() {
+            document.getElementById('feedbackModal').classList.remove('hidden');
+        }
+        
+        function closeFeedback() {
+            document.getElementById('feedbackModal').classList.add('hidden');
+            document.getElementById('feedbackSuccess').classList.add('hidden');
+            document.getElementById('feedbackForm').reset();
+        }
+        
+        // Handle feedback form submission
+        document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // In a real implementation, you would send the feedback to your server
+            // For this demo, we'll just show the success message
+            document.getElementById('feedbackSuccess').classList.remove('hidden');
+            
+            // Clear the form
+            document.getElementById('feedbackForm').reset();
+            
+            // Hide success message after 3 seconds and close modal
+            setTimeout(function() {
+                document.getElementById('feedbackSuccess').classList.add('hidden');
+                closeFeedback();
+            }, 3000);
+        });
+        
+        // File upload handling for PDF to Word tool
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('file-upload');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const removeFileBtn = document.getElementById('removeFile');
+        const convertBtn = document.getElementById('convertBtn');
+        const progressSection = document.getElementById('progressSection');
+        const progressBar = document.getElementById('progressBar');
+        const progressPercent = document.getElementById('progressPercent');
+        const resultSection = document.getElementById('resultSection');
+        
+        // Drag and drop events
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, highlight, false);
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, unhighlight, false);
+        });
+        
+        function highlight() {
+            dropZone.classList.add('dragover');
+        }
+        
+        function unhighlight() {
+            dropZone.classList.remove('dragover');
+        }
+        
+        // Handle dropped files
+        dropZone.addEventListener('drop', handleDrop, false);
+        
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handleFiles(files);
+        }
+        
+        // Handle file input change
+        fileInput.addEventListener('change', function() {
+            handleFiles(this.files);
+        });
+        
+        function handleFiles(files) {
+            if (files.length > 0) {
+                const file = files[0];
+                
+                // Validate file type
+                if (file.type !== 'application/pdf') {
+                    alert('Please upload a PDF file');
+                    return;
+                }
+                
+                // Validate file size (max 100MB)
+                if (file.size > 100 * 1024 * 1024) {
+                    alert('File size exceeds the 100MB limit');
+                    return;
+                }
+                
+                // Display file info
+                fileName.textContent = file.name;
+                fileSize.textContent = formatFileSize(file.size);
+                fileInfo.classList.remove('hidden');
+                dropZone.classList.add('hidden');
+            }
+        }
+        
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        
+        // Remove file handler
+        removeFileBtn.addEventListener('click', function() {
+            fileInfo.classList.add('hidden');
+            dropZone.classList.remove('hidden');
+            fileInput.value = '';
+        });
+        
+        // Convert button handler
+        convertBtn.addEventListener('click', function() {
+            // Check if a file is selected
+            if (fileInput.files.length === 0) {
+                alert('Please select a PDF file first');
+                return;
+            }
+            
+            // Show progress section
+            progressSection.classList.remove('hidden');
+            
+            // Simulate conversion process
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 5;
+                progressBar.style.width = progress + '%';
+                progressPercent.textContent = progress + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    
+                    // Show result section
+                    setTimeout(() => {
+                        progressSection.classList.add('hidden');
+                        resultSection.classList.remove('hidden');
+                    }, 500);
+                }
+            }, 100);
+        });
+    </script>
+</body>
+</html>
