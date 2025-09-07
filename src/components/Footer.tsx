@@ -19,7 +19,7 @@ const Footer = () => {
             <ul className='space-y-2'>
               <li>
                 <Link
-                  to='/merge_pdf'
+                  to='/merge-pdf'
                   className='text-gray-400 hover:text-white'
                 >
                   {t('footer.merge_pdf')}
