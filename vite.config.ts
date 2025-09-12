@@ -12,7 +12,6 @@ export default defineConfig(({ mode }) => ({
       '/api': {
         target: 'http://212.132.93.153:3001',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
       },
     },
   },
