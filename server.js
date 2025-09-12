@@ -15,7 +15,7 @@ const DATA_FILE = path.join(__dirname, 'data', 'blogs.json');
 
 app.use(express.json());
 app.use(cors({
-    origin: '*',
+    origin: 'https://pdflyer.com',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type'],
 }));

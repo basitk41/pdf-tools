@@ -23,7 +23,7 @@ interface Blog {
   imageUrl: string; // New field
 }
 
-const API_BASE_URL = 'http://212.132.93.153:3001/api/blogs';
+const API_BASE_URL = '/api/blogs'; // Updated to use proxy
 
 const BlogDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();

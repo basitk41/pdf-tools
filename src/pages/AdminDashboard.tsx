@@ -33,9 +33,7 @@ const AdminDashboard: React.FC = () => {
     const fetchDashboardData = async () => {
       // Fetch total blogs
       try {
-        const response = await axios.get(
-          'http://212.132.93.153:3001/api/blogs'
-        );
+        const response = await axios.get('/api/blogs');
         setTotalBlogs(response.data.length);
       } catch (error) {
         console.error('Error fetching total blogs:', error);
