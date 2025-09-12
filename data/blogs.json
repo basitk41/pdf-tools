@@ -1,0 +1,11 @@
+[
+  {
+    "id": "1757709828593",
+    "title": "Test Blog",
+    "content": "Test Description",
+    "imageUrl": "https://picsum.photos/seed/picsum/200/300",
+    "author": "Admin",
+    "createdAt": "2025-09-12T20:43:48.593Z",
+    "updatedAt": "2025-09-12T20:43:58.726Z"
+  }
+]
