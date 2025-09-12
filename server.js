@@ -14,7 +14,11 @@ const PORT = 3001;
 const DATA_FILE = path.join(__dirname, 'data', 'blogs.json');
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: 'https://pdflyer.com',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type'],
+}));
 
 // Helper function to read blogs
 const readBlogs = () => {
