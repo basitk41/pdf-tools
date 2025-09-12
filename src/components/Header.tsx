@@ -12,6 +12,7 @@ const Header = () => {
   const navLinks = [
     { to: '/', label: t('nav.home') },
     { to: '/tools', label: t('nav.tools') },
+    { to: '/blogs', label: t('nav.blogs') }, // New blog link
     { to: '/about', label: t('nav.about') },
     { to: '/contact', label: t('nav.contact') },
   ];
