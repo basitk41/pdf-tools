@@ -33,7 +33,7 @@ const writeBlogs = (blogs) => {
 // GET all blogs
 app.get('/api/blogs', (req, res) => {
     const blogs = readBlogs();
-    res.json(blogs);
+    res.json(blogs || []);
 });
 
 // GET a single blog by ID
@@ -41,7 +41,7 @@ app.get('/api/blogs/:id', (req, res) => {
     const blogs = readBlogs();
     const blog = blogs.find(b => b.id === req.params.id);
     if (blog) {
-        res.json(blog);
+        res.json(blog || {});
     } else {
         res.status(404).json({ message: 'Blog not found' });
     }
