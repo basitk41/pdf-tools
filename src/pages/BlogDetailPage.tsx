@@ -1,6 +1,5 @@
 // src/pages/BlogDetailPage.tsx
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   Card,
@@ -12,6 +11,7 @@ import {
 import { Button } from '../components/ui/button';
 import BlogForm from '../components/BlogForm';
 import Spinner from '../components/ui/spinner';
+import { supabase } from '@/services/supabaseClient';
 
 interface Blog {
   id: string;
@@ -23,8 +23,6 @@ interface Blog {
   imageUrl: string; // New field
 }
 
-const API_BASE_URL = '/api/blogs'; // Updated to use proxy
-
 const BlogDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -35,31 +33,42 @@ const BlogDetailPage: React.FC = () => {
 
   useEffect(() => {
     const fetchBlog = async () => {
-      try {
-        const response = await axios.get<Blog>(`${API_BASE_URL}/${id}`);
-        setBlog(response.data);
-      } catch (error) {
-        console.error('Error fetching blog:', error);
-        navigate('/admin/blogs'); // Redirect if blog not found
-      } finally {
+      const { data, error } = await supabase
+        .from('blogs')
+        .select('*')
+        .eq('id', id)
+        .single();
+      if (error) {
+        console.error('Error fetching blogs from Supabase:', error);
+        setLoading(false);
+        navigate('/blogs');
+      } else {
+        setBlog(data);
         setLoading(false);
       }
     };
     fetchBlog();
   }, [id, navigate]);
 
-  const handleUpdateBlog = async (data: { title: string; content: string }) => {
+  const handleUpdateBlog = async (inputData: {
+    title: string;
+    content: string;
+  }) => {
     if (!id) return;
     setSubmitting(true);
-    try {
-      const response = await axios.put<Blog>(`${API_BASE_URL}/${id}`, data);
-      setBlog(response.data);
+    const { data, error } = await supabase
+      .from('blogs')
+      .update(inputData)
+      .eq('id', id)
+      .select()
+      .single();
+    if (error) {
+      console.error('Error updating blog from Supabase:', error);
+    } else {
+      setBlog(data);
       setIsEditing(false);
-    } catch (error) {
-      console.error('Error updating blog:', error);
-    } finally {
-      setSubmitting(false);
     }
+    setSubmitting(false);
   };
 
   if (loading) {

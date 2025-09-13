@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Card,
   CardHeader,
@@ -31,9 +31,11 @@ const LoginPage: React.FC = () => {
     }
   };
 
-  if (user) {
-    navigate('/admin/dashboard'); // Redirect to admin dashboard if already logged in
-  }
+  useEffect(() => {
+    if (user) {
+      navigate('/admin/dashboard'); // Redirect to admin dashboard if already logged in
+    }
+  }, [user, navigate]);
 
   return (
     <div className='flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900'>

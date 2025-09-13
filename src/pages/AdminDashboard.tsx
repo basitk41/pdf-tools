@@ -19,6 +19,7 @@ import {
   Settings,
   MessageSquareText,
 } from 'lucide-react'; // New icons
+import { supabase } from '@/services/supabaseClient';
 
 const AdminDashboard: React.FC = () => {
   const { user, logout, loading } = useAuth();
@@ -32,13 +33,13 @@ const AdminDashboard: React.FC = () => {
   useEffect(() => {
     const fetchDashboardData = async () => {
       // Fetch total blogs
-      try {
-        const response = await axios.get('/api/blogs');
-        setTotalBlogs(response.data.length);
-      } catch (error) {
-        console.error('Error fetching total blogs:', error);
-        setTotalBlogs(0); // Default to 0 on error
-      } finally {
+      const { data, error } = await supabase.from('blogs').select('*');
+      if (error) {
+        console.error('Error fetching blogs from Supabase:', error);
+        setBlogsLoading(false);
+        setTotalBlogs(0);
+      } else {
+        setTotalBlogs(data.length);
         setBlogsLoading(false);
       }
 

@@ -30,6 +30,8 @@ import {
 } from '../components/ui/dialog';
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../components/ui/spinner'; // New import
+import { supabase } from '@/services/supabaseClient';
+import { useAuth } from '@/context/AuthContext';
 
 interface Blog {
   id: string;
@@ -52,15 +54,16 @@ const BlogManagement: React.FC = () => {
   const [loading, setLoading] = useState(true); // New state for loading blogs
   const [creatingBlog, setCreatingBlog] = useState(false); // New state for creating blog
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const fetchBlogs = async () => {
     setLoading(true);
-    try {
-      const response = await axios.get<Blog[]>(API_BASE_URL);
-      setBlogs(response.data);
-    } catch (error) {
-      console.error('Error fetching blogs:', error);
-    } finally {
+    const { data, error } = await supabase.from('blogs').select('*');
+    if (error) {
+      console.error('Error fetching blogs from Supabase:', error);
+      setLoading(false);
+    } else {
+      setBlogs(data);
       setLoading(false);
     }
   };
@@ -71,30 +74,40 @@ const BlogManagement: React.FC = () => {
 
   const handleCreateBlog = async () => {
     setCreatingBlog(true);
-    try {
-      const response = await axios.post<Blog>(API_BASE_URL, {
+    const { data, error } = await supabase
+      .from('blogs')
+      .insert({
         title: newBlogTitle,
         content: newBlogContent,
-        imageUrl: newBlogImageUrl, // Pass the new image URL
-      });
-      setBlogs([...blogs, response.data]);
+        imageUrl: newBlogImageUrl,
+        author: 'Admin',
+      })
+      .select('*');
+    if (error) {
+      console.error('Error fetching blogs from Supabase:', error);
+    } else {
+      setBlogs([...blogs, ...data]);
       setNewBlogTitle('');
       setNewBlogContent('');
       setNewBlogImageUrl(''); // Clear image URL after creation
       setIsNewBlogDialogOpen(false);
-    } catch (error) {
-      console.error('Error creating blog:', error);
-    } finally {
       setCreatingBlog(false);
     }
   };
 
   const handleDeleteBlog = async (id: string) => {
-    try {
-      await axios.delete(`${API_BASE_URL}/${id}`);
+    setCreatingBlog(true);
+    const { error } = await supabase
+      .from('blogs')
+      .delete()
+      .eq('id', id)
+      .select('*');
+    if (error) {
+      console.error('Error fetching blogs from Supabase:', error);
+      setCreatingBlog(false);
+    } else {
       setBlogs(blogs.filter((blog) => blog.id !== id));
-    } catch (error) {
-      console.error('Error deleting blog:', error);
+      setCreatingBlog(false);
     }
   };
 
@@ -159,8 +172,9 @@ const BlogManagement: React.FC = () => {
                         size='sm'
                         onClick={() => handleDeleteBlog(blog.id)}
                         className='ml-2'
+                        disabled={creatingBlog}
                       >
-                        Delete
+                        {creatingBlog ? 'Deleting...' : 'Delete'}
                       </Button>
                     </TableCell>
                   </TableRow>

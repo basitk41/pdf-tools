@@ -1,6 +1,5 @@
 // src/pages/Blogs.tsx
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import {
   Card,
   CardContent,
@@ -11,6 +10,7 @@ import {
 import Spinner from '../components/ui/spinner';
 import { Link } from 'react-router-dom';
 import { Button } from '../components/ui/button';
+import { supabase } from '../services/supabaseClient';
 
 interface Blog {
   id: string;
@@ -22,24 +22,23 @@ interface Blog {
   imageUrl: string; // New field
 }
 
-const API_BASE_URL = '/api/blogs'; // Updated to use proxy
-
 const Blogs: React.FC = () => {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const response = await axios.get<Blog[]>(API_BASE_URL);
-        setBlogs(response.data);
-      } catch (error) {
-        console.error('Error fetching blogs:', error);
-      } finally {
+    const fetchBlogsFromSupabase = async () => {
+      const { data, error } = await supabase.from('blogs').select('*');
+      if (error) {
+        console.error('Error fetching blogs from Supabase:', error);
+        setLoading(false);
+      } else {
+        setBlogs(data);
         setLoading(false);
       }
     };
-    fetchBlogs();
+
+    fetchBlogsFromSupabase();
   }, []);
 
   if (loading) {

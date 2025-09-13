@@ -7,10 +7,14 @@ import React, {
   ReactNode,
 } from 'react';
 import mockAuth from '../services/auth';
+import { supabase } from '../services/supabaseClient';
 
 interface User {
-  username: string;
-  token: string;
+  username?: string;
+  token?: string;
+  name?: string;
+  email?: string;
+  role?: string;
 }
 
 interface AuthContextType {
@@ -45,9 +49,18 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const login = async (username: string, password: string) => {
     setLoading(true);
     try {
-      const loggedInUser = await mockAuth.login(username, password);
-      setUser(loggedInUser);
-      localStorage.setItem('authToken', loggedInUser.token); // Store token
+      const { data, error } = await supabase
+        .from('users')
+        .select('email,name,role')
+        .eq('email', username)
+        .eq('password', password)
+        .single();
+      if (error) {
+        throw error;
+      }
+      // const loggedInUser = await mockAuth.login(username, password);
+      setUser(data);
+      localStorage.setItem('authToken', data.email); // Store token
     } finally {
       setLoading(false);
     }

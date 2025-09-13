@@ -1,16 +1,15 @@
 // src/pages/BlogPublicDetailPage.tsx
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
 } from '../components/ui/card';
 import Spinner from '../components/ui/spinner';
 import { Button } from '../components/ui/button';
+import { supabase } from '../services/supabaseClient';
 
 interface Blog {
   id: string;
@@ -22,8 +21,6 @@ interface Blog {
   imageUrl: string; // New field
 }
 
-const API_BASE_URL = '/api/blogs'; // Updated to use proxy
-
 const BlogPublicDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -31,18 +28,23 @@ const BlogPublicDetailPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchBlog = async () => {
-      try {
-        const response = await axios.get<Blog>(`${API_BASE_URL}/${id}`);
-        setBlog(response.data);
-      } catch (error) {
-        console.error('Error fetching blog:', error);
-        navigate('/blogs'); // Redirect if blog not found
-      } finally {
+    const fetchBlogsFromSupabase = async () => {
+      const { data, error } = await supabase
+        .from('blogs')
+        .select('*')
+        .eq('id', id)
+        .single();
+      if (error) {
+        console.error('Error fetching blogs from Supabase:', error);
+        setLoading(false);
+        navigate('/blogs');
+      } else {
+        setBlog(data);
         setLoading(false);
       }
     };
-    fetchBlog();
+
+    fetchBlogsFromSupabase();
   }, [id, navigate]);
 
   if (loading) {
