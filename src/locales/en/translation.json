@@ -30,7 +30,9 @@
     "medium": "Medium",
     "low": "Low",
     "back_to_home": "Back to Home",
-    "conversion_error": "Error during conversion. Please try again."
+    "conversion_error": "Error during conversion. Please try again.",
+    "error": "Error",
+    "success": "Success"
   },
   "chat": {
     "title": "Chat with Support",
@@ -46,7 +48,31 @@
     },
     "split_pdf": {
       "title": "Split PDF",
-      "description": "Extract pages from a PDF file."
+      "description": "Extract pages from a PDF file.",
+      "upload_prompt": "Drag & drop your PDF file here, or click to upload",
+      "upload_button": "Upload PDF",
+      "selected_file": "Selected File",
+      "total_pages": "Total Pages",
+      "options_heading": "Split Options",
+      "split_all_pages": "Split all pages into separate PDFs",
+      "split_by_range": "Split by page range",
+      "page_ranges_label": "Page Ranges (e.g., 1-5, 7, 10-12)",
+      "page_ranges_placeholder": "e.g., 1-5, 7, 10-12",
+      "page_ranges_helper": "Enter page numbers or ranges, separated by commas.",
+      "split_button": "Split PDF",
+      "result_heading": "Split PDF Result",
+      "download_button": "Download Split PDF",
+      "zip_ready": "Your split PDFs are ready for download as a ZIP file.",
+      "split_success_zip": "PDF successfully split into multiple files and zipped!",
+      "split_success_single": "PDF successfully split!",
+      "split_error": "Failed to split PDF",
+      "error_no_file_or_pages": "Please upload a PDF file and ensure it has pages.",
+      "error_invalid_ranges": "Invalid page ranges provided. Please check your input.",
+      "error_no_output": "No PDFs were generated based on the selected options.",
+      "error_file_type": "Please upload a PDF file (.pdf)",
+      "error_file_size": "File size exceeds the 100MB limit",
+      "error_no_pages": "The uploaded PDF has no pages or could not be processed.",
+      "error_loading_pdf": "Error loading PDF. The file might be corrupted or unsupported."
     },
     "edit_pdf": {
       "title": "Edit PDF",
