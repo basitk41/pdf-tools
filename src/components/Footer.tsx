@@ -27,7 +27,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  to='/split_pdf'
+                  to='/split-pdf'
                   className='text-gray-400 hover:text-white'
                 >
                   {t('footer.split_pdf')}
@@ -35,7 +35,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  to='/pdf_to_word'
+                  to='/pdf-to-word'
                   className='text-gray-400 hover:text-white'
                 >
                   {t('footer.pdf_to_word')}
@@ -43,7 +43,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  to='/word_to_pdf'
+                  to='/word-to-pdf'
                   className='text-gray-400 hover:text-white'
                 >
                   {t('footer.word_to_pdf')}

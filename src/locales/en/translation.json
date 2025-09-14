@@ -16,6 +16,7 @@
     "privacy_note_strong": "Privacy Note",
     "drag_and_drop": "Drag & drop your PDF file here",
     "drag_drop_word": "Drag & drop your Word file here",
+    "drag_drop_powerpoint": "Drag & drop your PowerPoint file here",
     "or": "or",
     "browse_files": "Browse Files",
     "max_file_size": "Maximum file size: 100MB",
@@ -88,11 +89,22 @@
     },
     "pdf_to_powerpoint": {
       "title": "PDF to PowerPoint",
-      "description": "Convert PDF files to PowerPoint presentations."
+      "description": "Convert PDF files to PowerPoint presentations.",
+      "conversion_complete": "Conversion Complete!",
+      "download_prompt": "Your PDF document has been successfully converted to PowerPoint format.",
+      "download_button": "Download PowerPoint Document"
     },
     "powerpoint_to_pdf": {
       "title": "PowerPoint to PDF",
-      "description": "Convert PowerPoint presentations to PDF files."
+      "description": "Convert PowerPoint presentations to PDF files.",
+      "error_file_type": "Please upload a PowerPoint file (.ppt or .pptx)",
+      "error_file_size": "File size exceeds the 100MB limit",
+      "error_no_file": "Please select a PowerPoint file first",
+      "output_quality": "Output Quality",
+      "convert_button": "Convert to PDF",
+      "conversion_complete": "Conversion Complete!",
+      "download_prompt": "Your PowerPoint document has been successfully converted to PDF format.",
+      "download_button": "Download PDF Document"
     },
     "pdf_to_jpg": {
       "title": "PDF to JPG",

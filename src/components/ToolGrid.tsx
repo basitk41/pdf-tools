@@ -46,6 +46,12 @@ const ToolGrid = () => {
       description: t('tools.pdf_to_powerpoint.description'),
     },
     {
+      to: '/powerpoint-to-pdf',
+      icon: <FileChartPie className='text-yellow-600 w-8 h-8' />,
+      title: t('tools.powerpoint_to_pdf.title'),
+      description: t('tools.powerpoint_to_pdf.description'),
+    },
+    {
       to: '/pdf-editor',
       icon: <FileEdit className='text-purple-600 w-8 h-8' />,
       title: t('tools.edit_pdf.title'),

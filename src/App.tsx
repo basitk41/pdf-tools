@@ -14,6 +14,8 @@ import PdfToWord from './pages/PdfToWord';
 import WordToPdf from './pages/WordToPdf';
 import PdfToExcel from './pages/PdfToExcel';
 import ExcelToPdf from './pages/ExcelToPdf';
+import PdfToPowerPoint from './pages/PdfToPowerPoint';
+import PowerPointToPdf from './pages/PowerPointToPdf';
 import LoginPage from './pages/LoginPage';
 import AdminDashboard from './pages/AdminDashboard';
 import BlogManagement from './pages/BlogManagement'; // New import
@@ -32,6 +34,8 @@ const App = () => (
         <Route path='/word-to-pdf' element={<WordToPdf />} />
         <Route path='/pdf-to-excel' element={<PdfToExcel />} />
         <Route path='/excel-to-pdf' element={<ExcelToPdf />} />
+        <Route path='/pdf-to-powerpoint' element={<PdfToPowerPoint />} />
+        <Route path='/powerpoint-to-pdf' element={<PowerPointToPdf />} />
         <Route path='/about' element={<About />} />
         <Route path='/contact' element={<Contact />} />
         <Route path='/privacy' element={<PrivacyPolicy />} />
