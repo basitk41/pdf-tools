@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { FileText, FileUp, XCircle, CheckCircle } from 'lucide-react';
 import axios from 'axios';
 import ToolPageLayout from '@/components/tool-page/ToolPageLayout';
+import { download } from '@/lib/utils';
 
 const WordToPdf = () => {
   const { t } = useTranslation();
@@ -12,6 +13,7 @@ const WordToPdf = () => {
   const [progress, setProgress] = useState(0);
   const [conversionComplete, setConversionComplete] = useState(false);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+  const [fileName, setFileName] = useState<string>('');
 
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -121,6 +123,7 @@ const WordToPdf = () => {
       // Create download link
       const url = URL.createObjectURL(blob);
       setPdfUrl(url); // Assuming you'll add this state
+      setFileName(response.data.Files[0].FileName);
       // const link = document.createElement('a');
       // link.href = url;
       // link.download = fileName;
@@ -275,7 +278,8 @@ const WordToPdf = () => {
             {pdfUrl && (
               <div className='mt-4'>
                 <a
-                  href={pdfUrl}
+                  // href={pdfUrl}
+                  onClick={() => download(pdfUrl, fileName)}
                   className='bg-green-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300'
                   target='_blank'
                   rel='noopener noreferrer'
