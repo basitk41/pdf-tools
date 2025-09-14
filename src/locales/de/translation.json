@@ -69,11 +69,22 @@
     },
     "pdf_to_excel": {
       "title": "PDF zu Excel",
-      "description": "Tabellen aus PDF nach Excel extrahieren"
+      "description": "Tabellen aus PDF nach Excel extrahieren",
+      "conversion_complete": "Konvertierung abgeschlossen!",
+      "download_prompt": "Ihr PDF-Dokument wurde erfolgreich in das Excel-Format konvertiert.",
+      "download_button": "Excel-Dokument herunterladen"
     },
     "excel_to_pdf": {
       "title": "Excel zu PDF",
-      "description": "Excel-Tabellen in PDF umwandeln"
+      "description": "Excel-Tabellen in PDF umwandeln",
+      "error_file_type": "Bitte laden Sie eine Excel-Datei (.xls oder .xlsx) hoch",
+      "error_file_size": "Die Dateigröße überschreitet das Limit von 100 MB",
+      "error_no_file": "Bitte wählen Sie zuerst eine Excel-Datei aus",
+      "output_quality": "Ausgabequalität",
+      "convert_button": "In PDF konvertieren",
+      "conversion_complete": "Konvertierung abgeschlossen!",
+      "download_prompt": "Ihr Excel-Dokument wurde erfolgreich in das PDF-Format konvertiert.",
+      "download_button": "PDF-Dokument herunterladen"
     },
     "pdf_to_powerpoint": {
       "title": "PDF zu PowerPoint",

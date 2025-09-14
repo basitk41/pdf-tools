@@ -69,11 +69,22 @@
     },
     "pdf_to_excel": {
       "title": "PDF to Excel",
-      "description": "Extract tables from PDF to Excel"
+      "description": "Extract tables from PDF to Excel",
+      "conversion_complete": "Conversion Complete!",
+      "download_prompt": "Your PDF document has been successfully converted to Excel format.",
+      "download_button": "Download Excel Document"
     },
     "excel_to_pdf": {
       "title": "Excel to PDF",
-      "description": "Convert Excel spreadsheets to PDF"
+      "description": "Convert Excel spreadsheets to PDF",
+      "error_file_type": "Please upload an Excel file (.xls or .xlsx)",
+      "error_file_size": "File size exceeds the 100MB limit",
+      "error_no_file": "Please select an Excel file first",
+      "output_quality": "Output Quality",
+      "convert_button": "Convert to PDF",
+      "conversion_complete": "Conversion Complete!",
+      "download_prompt": "Your Excel document has been successfully converted to PDF format.",
+      "download_button": "Download PDF Document"
     },
     "pdf_to_powerpoint": {
       "title": "PDF to PowerPoint",

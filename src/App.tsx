@@ -12,6 +12,8 @@ import TermsOfService from './pages/TermsOfService';
 import Tools from './pages/Tools';
 import PdfToWord from './pages/PdfToWord';
 import WordToPdf from './pages/WordToPdf';
+import PdfToExcel from './pages/PdfToExcel';
+import ExcelToPdf from './pages/ExcelToPdf';
 import LoginPage from './pages/LoginPage';
 import AdminDashboard from './pages/AdminDashboard';
 import BlogManagement from './pages/BlogManagement'; // New import
@@ -28,6 +30,8 @@ const App = () => (
         <Route path='/merge-pdf' element={<MergePdf />} />
         <Route path='/pdf-to-word' element={<PdfToWord />} />
         <Route path='/word-to-pdf' element={<WordToPdf />} />
+        <Route path='/pdf-to-excel' element={<PdfToExcel />} />
+        <Route path='/excel-to-pdf' element={<ExcelToPdf />} />
         <Route path='/about' element={<About />} />
         <Route path='/contact' element={<Contact />} />
         <Route path='/privacy' element={<PrivacyPolicy />} />
