@@ -13,7 +13,9 @@
     "merged_pdf": "Zusammengefügte PDF",
     "download": "Herunterladen",
     "privacy_note": "Datenschutzhinweis",
+    "privacy_note_strong": "Datenschutzhinweis",
     "drag_and_drop": "Ziehen Sie Ihre PDF-Datei hierher",
+    "drag_drop_word": "Ziehen Sie Ihre Word-Datei hierher",
     "or": "oder",
     "browse_files": "Dateien durchsuchen",
     "max_file_size": "Maximale Dateigröße: 100MB",
@@ -21,7 +23,13 @@
     "converting": "Konvertierung",
     "conversion_complete": "Konvertierung abgeschlossen!",
     "conversion_success_message": "Ihre PDF wurde erfolgreich konvertiert.",
-    "download_merged_pdf": "Zusammengeführte PDF herunterladen"
+    "download_merged_pdf": "Zusammengeführte PDF herunterladen",
+    "conversion_options": "Konvertierungsoptionen",
+    "high": "Hoch",
+    "medium": "Mittel",
+    "low": "Niedrig",
+    "back_to_home": "Zurück zur Startseite",
+    "conversion_error": "Fehler bei der Konvertierung. Bitte versuchen Sie es erneut."
   },
   "chat": {
     "title": "Chat mit Support",
@@ -49,7 +57,15 @@
     },
     "word_to_pdf": {
       "title": "Word zu PDF",
-      "description": "Word-Dokumente in PDF-Dateien umwandeln."
+      "description": "Word-Dokumente in das PDF-Format umwandeln.",
+      "error_file_type": "Bitte laden Sie eine Word-Datei (.doc oder .docx) hoch",
+      "error_file_size": "Die Dateigröße überschreitet das Limit von 100 MB",
+      "error_no_file": "Bitte wählen Sie zuerst eine Word-Datei aus",
+      "output_quality": "Ausgabequalität",
+      "convert_button": "In PDF konvertieren",
+      "conversion_complete": "Konvertierung abgeschlossen!",
+      "download_prompt": "Ihr Word-Dokument wurde erfolgreich in das PDF-Format konvertiert.",
+      "download_button": "PDF-Dokument herunterladen"
     },
     "pdf_to_excel": {
       "title": "PDF zu Excel",

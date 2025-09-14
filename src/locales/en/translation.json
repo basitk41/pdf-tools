@@ -13,7 +13,9 @@
     "merged_pdf": "Merged PDF",
     "download": "Download",
     "privacy_note": "Privacy Note",
+    "privacy_note_strong": "Privacy Note",
     "drag_and_drop": "Drag & drop your PDF file here",
+    "drag_drop_word": "Drag & drop your Word file here",
     "or": "or",
     "browse_files": "Browse Files",
     "max_file_size": "Maximum file size: 100MB",
@@ -21,7 +23,13 @@
     "converting": "Converting",
     "conversion_complete": "Conversion Complete!",
     "conversion_success_message": "Your PDF has been successfully converted.",
-    "download_merged_pdf": "Download Merged PDF"
+    "download_merged_pdf": "Download Merged PDF",
+    "conversion_options": "Conversion Options",
+    "high": "High",
+    "medium": "Medium",
+    "low": "Low",
+    "back_to_home": "Back to Home",
+    "conversion_error": "Error during conversion. Please try again."
   },
   "chat": {
     "title": "Chat with Support",
@@ -45,11 +53,19 @@
     },
     "pdf_to_word": {
       "title": "PDF to Word",
-      "description": "Convert PDF files to editable Word documents."
+      "description": "Convert PDF to editable Word documents"
     },
     "word_to_pdf": {
       "title": "Word to PDF",
-      "description": "Convert Word documents to PDF files."
+      "description": "Convert Word documents to PDF format",
+      "error_file_type": "Please upload a Word file (.doc or .docx)",
+      "error_file_size": "File size exceeds the 100MB limit",
+      "error_no_file": "Please select a Word file first",
+      "output_quality": "Output Quality",
+      "convert_button": "Convert to PDF",
+      "conversion_complete": "Conversion Complete!",
+      "download_prompt": "Your Word document has been successfully converted to PDF format.",
+      "download_button": "Download PDF Document"
     },
     "pdf_to_excel": {
       "title": "PDF to Excel",

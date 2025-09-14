@@ -23,7 +23,7 @@ const ToolGrid = () => {
     },
     {
       to: '/word-to-pdf',
-      icon: <FileText className='text-red-600 w-8 h-8' />,
+      icon: <FileType className='text-red-600 w-8 h-8' />,
       title: t('tools.word_to_pdf.title'),
       description: t('tools.word_to_pdf.description'),
     },
