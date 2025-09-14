@@ -12,6 +12,12 @@ import { Button } from '../components/ui/button';
 import BlogForm from '../components/BlogForm';
 import Spinner from '../components/ui/spinner';
 import { supabase } from '@/services/supabaseClient';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeRaw from 'rehype-raw';
+import remarkBreaks from 'remark-breaks';
+import AdminSidebar from '../components/AdminSidebar'; // New import
+import { useAuth } from '@/context/AuthContext'; // New import
 
 interface Blog {
   id: string;
@@ -30,6 +36,7 @@ const BlogDetailPage: React.FC = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const { loading: authLoading } = useAuth(); // Get auth loading state
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -84,58 +91,71 @@ const BlogDetailPage: React.FC = () => {
   }
 
   return (
-    <div className='p-8'>
-      <div className='flex justify-between items-center mb-6'>
-        <Button variant='outline' onClick={() => navigate(-1)}>
-          &larr; Back to Blogs
-        </Button>
-        <h1 className='text-3xl font-bold'>
-          {isEditing ? 'Edit Blog' : blog.title}
-        </h1>
-        {!isEditing && (
-          <Button onClick={() => setIsEditing(true)}>Edit Blog</Button>
-        )}
-      </div>
+    <div className='flex min-h-screen bg-gray-100 dark:bg-gray-900'>
+      <AdminSidebar loading={authLoading} />
+      <main className='flex-1 p-4 sm:p-6 lg:p-8 lg:ml-0 md:ml-0 sm:ml-0 mt-16 lg:mt-0'>
+        <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4'>
+          <h1 className='text-2xl sm:text-3xl font-bold text-center sm:text-left'>
+            {isEditing ? 'Edit Blog' : blog.title}
+          </h1>
+          {!isEditing && (
+            <Button
+              onClick={() => setIsEditing(true)}
+              className='w-full sm:w-auto'
+            >
+              Edit Blog
+            </Button>
+          )}
+        </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>{blog.title}</CardTitle>
-          <CardDescription>
-            By {blog.author} on {new Date(blog.createdAt).toLocaleDateString()}
-          </CardDescription>
-          {blog.createdAt !== blog.updatedAt && (
-            <p className='text-sm text-gray-500'>
-              Last updated: {new Date(blog.updatedAt).toLocaleDateString()}
-            </p>
-          )}
-        </CardHeader>
-        <CardContent>
-          {isEditing ? (
-            <BlogForm
-              initialData={{
-                title: blog.title,
-                content: blog.content,
-                imageUrl: blog.imageUrl,
-              }}
-              onSubmit={handleUpdateBlog}
-              onCancel={() => setIsEditing(false)}
-              submitButtonText='Save Changes'
-              isSubmitting={submitting}
-            />
-          ) : (
-            <>
-              <img
-                src={blog.imageUrl}
-                alt={blog.title}
-                className='w-64 h-48 mb-4 rounded'
-              />
-              <p className='text-gray-700 whitespace-pre-line'>
-                {blog.content}
+        <Card>
+          <CardHeader>
+            <CardTitle>{blog.title}</CardTitle>
+            <CardDescription>
+              By {blog.author} on{' '}
+              {new Date(blog.createdAt).toLocaleDateString()}
+            </CardDescription>
+            {blog.createdAt !== blog.updatedAt && (
+              <p className='text-sm text-gray-500'>
+                Last updated: {new Date(blog.updatedAt).toLocaleDateString()}
               </p>
-            </>
-          )}
-        </CardContent>
-      </Card>
+            )}
+          </CardHeader>
+          <CardContent>
+            {isEditing ? (
+              <BlogForm
+                initialData={{
+                  title: blog.title,
+                  content: blog.content,
+                  imageUrl: blog.imageUrl,
+                }}
+                onSubmit={handleUpdateBlog}
+                onCancel={() => setIsEditing(false)}
+                submitButtonText='Save Changes'
+                isSubmitting={submitting}
+              />
+            ) : (
+              <>
+                {blog.imageUrl && (
+                  <img
+                    src={blog.imageUrl}
+                    alt={blog.title}
+                    className='w-full sm:w-64 h-auto sm:h-48 mb-4 rounded object-cover'
+                  />
+                )}
+                <div className='prose dark:prose-invert max-w-none'>
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm, remarkBreaks]}
+                    rehypePlugins={[rehypeRaw]}
+                  >
+                    {blog.content}
+                  </ReactMarkdown>
+                </div>
+              </>
+            )}
+          </CardContent>
+        </Card>
+      </main>
     </div>
   );
 };

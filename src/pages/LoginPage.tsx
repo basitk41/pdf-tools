@@ -38,7 +38,7 @@ const LoginPage: React.FC = () => {
   }, [user, navigate]);
 
   return (
-    <div className='flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900'>
+    <div className='flex p-4 items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900'>
       <Card className='w-full max-w-md'>
         <CardHeader className='space-y-1'>
           <CardTitle className='text-2xl font-bold'>Admin Login</CardTitle>
@@ -77,9 +77,9 @@ const LoginPage: React.FC = () => {
         </CardContent>
         <CardFooter className='flex justify-center'>
           <p className='text-sm text-gray-500 dark:text-gray-400'>
-            Forgot your password?{' '}
-            <a href='#' className='underline'>
-              Reset it
+            Back to{' '}
+            <a href='/' className='underline'>
+              website
             </a>
           </p>
         </CardFooter>

@@ -1,29 +1,19 @@
 // src/pages/AdminDashboard.tsx
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '../components/ui/button';
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
 } from '../components/ui/card';
-import { Separator } from '../components/ui/separator';
-import axios from 'axios'; // New import
 import Spinner from '../components/ui/spinner'; // New import
-import {
-  LayoutDashboard,
-  Newspaper,
-  Users,
-  Settings,
-  MessageSquareText,
-} from 'lucide-react'; // New icons
+import { Newspaper, Users, MessageSquareText } from 'lucide-react'; // New icons
 import { supabase } from '@/services/supabaseClient';
+import AdminSidebar from '../components/AdminSidebar'; // New import
 
 const AdminDashboard: React.FC = () => {
-  const { user, logout, loading } = useAuth();
-  const navigate = useNavigate();
+  const { user, loading } = useAuth();
   const [totalBlogs, setTotalBlogs] = useState<number | null>(null); // New state
   const [blogsLoading, setBlogsLoading] = useState(true); // New state
   const [newComments, setNewComments] = useState<number | null>(null);
@@ -60,70 +50,16 @@ const AdminDashboard: React.FC = () => {
     fetchDashboardData();
   }, [user]);
 
-  const handleLogout = async () => {
-    await logout();
-    navigate('/admin/login');
-  };
-
   return (
     <div className='flex min-h-screen bg-gray-100 dark:bg-gray-900'>
-      {/* Sidebar */}
-      <aside className='w-64 bg-white dark:bg-gray-800 shadow-md p-4 space-y-4'>
-        <h2 className='text-2xl font-bold text-gray-800 dark:text-white'>
-          Admin Panel
-        </h2>
-        <Separator />
-        <nav className='space-y-2'>
-          <Button
-            variant='ghost'
-            className='w-full justify-start flex items-center gap-2'
-          >
-            <LayoutDashboard className='h-4 w-4' /> Dashboard
-          </Button>
-          <Button
-            variant='ghost'
-            className='w-full justify-start flex items-center gap-2'
-            onClick={() => navigate('/admin/blogs')}
-          >
-            <Newspaper className='h-4 w-4' /> Manage Blogs
-          </Button>
-          <Button
-            variant='ghost'
-            className='w-full justify-start flex items-center gap-2'
-          >
-            <Users className='h-4 w-4' /> Users
-          </Button>
-          <Button
-            variant='ghost'
-            className='w-full justify-start flex items-center gap-2'
-          >
-            <Settings className='h-4 w-4' /> Settings
-          </Button>
-        </nav>
-        <div className='absolute bottom-4 left-4 w-56 space-y-2'>
-          <Button
-            variant='outline'
-            className='w-full'
-            onClick={() => navigate('/')}
-          >
-            Visit Site
-          </Button>
-          <Button
-            variant='destructive'
-            className='w-full'
-            onClick={handleLogout}
-            disabled={loading}
-          >
-            {loading ? 'Logging out...' : 'Logout'}
-          </Button>
-        </div>
-      </aside>
+      <AdminSidebar loading={loading} />
 
       {/* Main content */}
-      <main className='flex-1 p-8'>
-        <div className='flex justify-between items-center mb-6'>
+      <main className='flex-1 p-8 lg:ml-0 md:ml-0 sm:ml-0'>
+        <div className='flex justify-between items-center mb-6 mt-16 lg:mt-0'>
           <h1 className='text-3xl font-bold text-gray-800 dark:text-white'>
-            Welcome, {user?.username}!
+            Welcome, <span className='hidden sm:inline'>{user?.username}</span>
+            <span className='sm:hidden'>Admin</span>!
           </h1>
         </div>
 
@@ -186,7 +122,7 @@ const AdminDashboard: React.FC = () => {
         </div>
 
         <div className='mt-8'>
-          <h2 className='text-2xl font-bold text-gray-800 dark:text-white mb-4'>
+          <h2 className='text-2xl font-bold text-gray-800 dark:text-white'>
             Recent Activity
           </h2>
           <Card>

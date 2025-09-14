@@ -10,6 +10,10 @@ import {
 import Spinner from '../components/ui/spinner';
 import { Button } from '../components/ui/button';
 import { supabase } from '../services/supabaseClient';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeRaw from 'rehype-raw';
+import remarkBreaks from 'remark-breaks';
 
 interface Blog {
   id: string;
@@ -61,11 +65,11 @@ const BlogPublicDetailPage: React.FC = () => {
 
   return (
     <div className='container mx-auto p-8 max-w-4xl'>
-      <div className='flex items-center mb-6'>
+      <div className='flex items-start gap-4 mb-6 flex-col'>
         <Button variant='outline' onClick={() => navigate(-1)} className='mr-4'>
           &larr; Back to Blogs
         </Button>
-        <h1 className='text-4xl font-bold'>{blog.title}</h1>
+        <h1 className='text-2xl md:text-3xl font-bold'>{blog.title}</h1>
       </div>
 
       <Card className='overflow-hidden'>
@@ -99,9 +103,14 @@ const BlogPublicDetailPage: React.FC = () => {
           )}
         </CardHeader>
         <CardContent>
-          <p className='text-lg text-gray-800 dark:text-gray-200 whitespace-pre-line leading-relaxed'>
-            {blog.content}
-          </p>
+          <div className='prose dark:prose-invert max-w-none'>
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm, remarkBreaks]}
+              rehypePlugins={[rehypeRaw]}
+            >
+              {blog.content}
+            </ReactMarkdown>
+          </div>
         </CardContent>
       </Card>
     </div>

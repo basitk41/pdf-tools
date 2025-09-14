@@ -73,9 +73,9 @@ const Blogs: React.FC = () => {
                   />
                 </div>
               )}
-              <div className='md:w-2/3 p-6 flex flex-col justify-between'>
+              <div className='p-6 flex flex-col justify-between'>
                 <CardHeader className='p-0 mb-4'>
-                  <CardTitle className='text-2xl font-bold'>
+                  <CardTitle className='text-xl font-bold'>
                     {blog.title}
                   </CardTitle>
                   <CardDescription className='text-sm text-gray-500 dark:text-gray-400'>
