@@ -24,6 +24,7 @@ import BlogDetailPage from './pages/BlogDetailPage'; // New import
 import Blogs from './pages/Blogs'; // New import
 import BlogPublicDetailPage from './pages/BlogPublicDetailPage'; // New import
 import ProtectedRoute from './components/ProtectedRoute';
+import { EditPdf } from './pages/EditPdf';
 
 const App = () => (
   <I18nextProvider i18n={i18n}>
@@ -38,6 +39,7 @@ const App = () => (
         <Route path='/pdf-to-powerpoint' element={<PdfToPowerPoint />} />
         <Route path='/powerpoint-to-pdf' element={<PowerPointToPdf />} />
         <Route path='/split-pdf' element={<SplitPdf />} />
+        <Route path='/pdf-editor' element={<EditPdf />} />
         <Route path='/about' element={<About />} />
         <Route path='/contact' element={<Contact />} />
         <Route path='/privacy' element={<PrivacyPolicy />} />

@@ -76,7 +76,25 @@
     },
     "edit_pdf": {
       "title": "Edit PDF",
-      "description": "Edit text, add signatures and more"
+      "description": "Edit text, add signatures and more",
+      "upload_prompt": "Select a PDF to start editing.",
+      "upload_button": "Upload PDF",
+      "error_file_type": "Only PDF files are supported.",
+      "error_file_size": "File size exceeds 100 MB limit.",
+      "error_loading_pdf": "Error loading PDF. The file might be corrupted or unsupported.",
+      "total_pages": "Total Pages",
+      "page_number": "Page Number",
+      "add_text_label": "Add Text",
+      "add_text_placeholder": "Enter text to add to PDF",
+      "add_text_button": "Add Text",
+      "add_image_label": "Add Image (e.g. signature or stamp)",
+      "add_image_button": "Add Image",
+      "preview_edited": "Preview Edited PDF",
+      "download_button": "Download Edited PDF",
+      "text_added": "Text successfully added to PDF.",
+      "image_added": "Image successfully added to PDF.",
+      "edit_error": "Error editing PDF. Please try again.",
+      "download_success": "Your edited PDF has been downloaded."
     },
     "pdf_to_word": {
       "title": "PDF to Word",

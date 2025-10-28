@@ -73,7 +73,25 @@
     },
     "edit_pdf": {
       "title": "PDF bearbeiten",
-      "description": "Text bearbeiten, Signaturen hinzufügen und mehr"
+      "description": "Text bearbeiten, Signaturen hinzufügen und mehr",
+      "upload_prompt": "Wählen Sie eine PDF-Datei aus, um mit der Bearbeitung zu beginnen.",
+      "upload_button": "PDF hochladen",
+      "error_file_type": "Nur PDF-Dateien werden unterstützt.",
+      "error_file_size": "Die Dateigröße überschreitet das Limit von 100 MB.",
+      "error_loading_pdf": "Fehler beim Laden der PDF-Datei. Die Datei ist möglicherweise beschädigt oder wird nicht unterstützt.",
+      "total_pages": "Gesamtseiten",
+      "page_number": "Seitennummer",
+      "add_text_label": "Text hinzufügen",
+      "add_text_placeholder": "Geben Sie den Text ein, der in die PDF eingefügt werden soll",
+      "add_text_button": "Text hinzufügen",
+      "add_image_label": "Bild hinzufügen (z. B. Unterschrift oder Stempel)",
+      "add_image_button": "Bild hinzufügen",
+      "preview_edited": "Bearbeitete PDF-Vorschau",
+      "download_button": "Bearbeitete PDF herunterladen",
+      "text_added": "Text wurde erfolgreich zur PDF hinzugefügt.",
+      "image_added": "Bild wurde erfolgreich zur PDF hinzugefügt.",
+      "edit_error": "Fehler beim Bearbeiten der PDF. Bitte versuchen Sie es erneut.",
+      "download_success": "Ihre bearbeitete PDF wurde erfolgreich heruntergeladen."
     },
     "pdf_to_word": {
       "title": "PDF zu Word",

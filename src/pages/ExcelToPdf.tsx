@@ -94,7 +94,7 @@ const ExcelToPdf = () => {
 
     try {
       const response = await axios.post(
-        'https://v2.convertapi.com/convert/xlsx/to/pdf?Secret=yR9zQsG6TLSuHHUA76LRQeZGj4mysh0p',
+        'https://v2.convertapi.com/convert/xlsx/to/pdf?Secret=z6IfbOgrSAnuI7pCkwMQK1OCPUgOlRef',
         formData,
         {
           headers: {
