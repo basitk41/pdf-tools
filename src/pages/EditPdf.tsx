@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Document, Page, pdfjs } from 'react-pdf';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
@@ -7,6 +7,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import {
   FileUp,
   Loader2,
@@ -18,6 +25,9 @@ import {
   Square,
   PenTool,
   Trash2,
+  Eraser,
+  Save,
+  X,
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import ToolPageLayout from '@/components/tool-page/ToolPageLayout';
@@ -27,7 +37,7 @@ import 'react-pdf/dist/Page/TextLayer.css';
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 // Element type definition
-type ElementType = 'text' | 'image' | 'shape' | 'drawing';
+type ElementType = 'text' | 'image' | 'shape' | 'drawing' | 'whiteout';
 
 type Element = {
   id: string;
@@ -86,6 +96,76 @@ export const EditPdf = () => {
   const [selectedElementId, setSelectedElementId] = useState<string | null>(
     null
   );
+  const [savedSignatures, setSavedSignatures] = useState<string[]>([]);
+  const [showSignatureDialog, setShowSignatureDialog] = useState(false);
+  const [activeTool, setActiveTool] = useState<
+    'text' | 'image' | 'shape' | 'drawing' | 'whiteout' | null
+  >(null);
+
+  // Load saved signatures from localStorage on mount
+  useEffect(() => {
+    const stored = localStorage.getItem('pdfSignatures');
+    if (stored) {
+      try {
+        const signatures = JSON.parse(stored);
+        setSavedSignatures(signatures);
+      } catch (error) {
+        console.error('Error loading signatures:', error);
+      }
+    }
+  }, []);
+
+  // Save signature to localStorage
+  const saveSignature = (dataUrl: string) => {
+    const updated = [...savedSignatures, dataUrl];
+    setSavedSignatures(updated);
+    localStorage.setItem('pdfSignatures', JSON.stringify(updated));
+    toast({
+      title: t('common.success'),
+      description: 'Signature saved successfully',
+    });
+  };
+
+  // Delete signature from localStorage
+  const deleteSignature = (index: number) => {
+    const updated = savedSignatures.filter((_, i) => i !== index);
+    setSavedSignatures(updated);
+    localStorage.setItem('pdfSignatures', JSON.stringify(updated));
+    toast({
+      title: t('common.success'),
+      description: 'Signature deleted',
+    });
+  };
+
+  // Use saved signature
+  const applySavedSignature = (dataUrl: string) => {
+    const img = new Image();
+    img.onload = () => {
+      const aspectRatio = img.width / img.height;
+      const maxWidth = 200;
+      const width = Math.min(maxWidth, img.width);
+      const height = width / aspectRatio;
+
+      const newElement: Element = {
+        id: `signature-${Date.now()}`,
+        type: 'image',
+        x: 50,
+        y: 50,
+        width: width,
+        height: height,
+        pageNumber: pageNumber,
+        dataUrl: dataUrl,
+      };
+
+      setElements([...elements, newElement]);
+      setShowSignatureDialog(false);
+      toast({
+        title: t('common.success'),
+        description: 'Signature added',
+      });
+    };
+    img.src = dataUrl;
+  };
 
   const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target;
@@ -243,6 +323,26 @@ export const EditPdf = () => {
     });
   };
 
+  const handleAddWhiteout = () => {
+    const newElement: Element = {
+      id: `whiteout-${Date.now()}`,
+      type: 'whiteout',
+      x: 50,
+      y: 50,
+      width: 200,
+      height: 50,
+      pageNumber: pageNumber,
+      shapeColor: '#FFFFFF',
+    };
+
+    setElements([...elements, newElement]);
+    setActiveTool(null);
+    toast({
+      title: t('common.success'),
+      description: 'Whiteout added',
+    });
+  };
+
   const handleDeleteElement = (id: string) => {
     setElements(elements.filter((el) => el.id !== id));
     if (selectedElementId === id) {
@@ -299,7 +399,7 @@ export const EditPdf = () => {
     // Don't clear canvas or add to elements here - let user finish drawing first
   };
 
-  const finishDrawing = () => {
+  const finishDrawing = (saveAsSignature = false) => {
     if (!canvasRef.current) return;
     setIsDrawing(false);
     lastPointRef.current = null;
@@ -318,22 +418,28 @@ export const EditPdf = () => {
     if (hasContent) {
       const dataUrl = canvas.toDataURL();
 
-      const newElement: Element = {
-        id: `drawing-${Date.now()}`,
-        type: 'drawing',
-        x: 0,
-        y: 0,
-        width: canvas.width,
-        height: canvas.height,
-        pageNumber: pageNumber,
-        dataUrl: dataUrl,
-      };
+      if (saveAsSignature) {
+        // Save as signature
+        saveSignature(dataUrl);
+      } else {
+        // Add as drawing element
+        const newElement: Element = {
+          id: `drawing-${Date.now()}`,
+          type: 'drawing',
+          x: 0,
+          y: 0,
+          width: canvas.width,
+          height: canvas.height,
+          pageNumber: pageNumber,
+          dataUrl: dataUrl,
+        };
 
-      setElements([...elements, newElement]);
-      toast({
-        title: t('common.success'),
-        description: 'Drawing added',
-      });
+        setElements([...elements, newElement]);
+        toast({
+          title: t('common.success'),
+          description: 'Drawing added',
+        });
+      }
     } else {
       toast({
         title: t('common.error'),
@@ -517,6 +623,21 @@ export const EditPdf = () => {
                 });
               }
               break;
+
+            case 'whiteout':
+              if (element.width && element.height) {
+                const width = element.width / pageScale;
+                const height = element.height / pageScale;
+
+                selectedPage.drawRectangle({
+                  x: pdfX,
+                  y: pdfY - height,
+                  width: width,
+                  height: height,
+                  color: rgb(1, 1, 1), // White
+                });
+              }
+              break;
           }
         }
       }
@@ -600,7 +721,199 @@ export const EditPdf = () => {
           ) : (
             <>
               <p className='text-lg font-semibold text-center'>{file.name}</p>
+              {/* Floating Toolbar */}
+              <div className='w-full max-w-4xl'>
+                <div className='bg-card border rounded-lg shadow-lg p-4 mb-4'>
+                  {/* Page Navigation */}
+                  <div className='flex items-center justify-between mb-4'>
+                    <div className='flex items-center gap-2'>
+                      <Label className='text-sm'>
+                        {t('tools.edit_pdf.page_number')}
+                      </Label>
+                      <Input
+                        type='number'
+                        min={1}
+                        max={numPages || 1}
+                        value={pageNumber}
+                        onChange={(e) => setPageNumber(Number(e.target.value))}
+                        className='w-20'
+                      />
+                      {numPages && (
+                        <span className='text-sm text-muted-foreground'>
+                          / {numPages}
+                        </span>
+                      )}
+                    </div>
+                    <Button
+                      onClick={handleSave}
+                      disabled={isLoading || elements.length === 0}
+                      className='ml-auto'
+                    >
+                      {isLoading ? (
+                        <Loader2 className='h-4 w-4 animate-spin mr-2' />
+                      ) : (
+                        <Download className='mr-2 h-4 w-4' />
+                      )}
+                      {t('tools.edit_pdf.download_button')}
+                    </Button>
+                  </div>
 
+                  {/* Toolbar Buttons */}
+                  <div className='flex flex-wrap gap-2'>
+                    {/* Text Tool */}
+                    <div className='flex flex-col gap-1'>
+                      <Button
+                        onClick={() => {
+                          if (activeTool === 'text') {
+                            setActiveTool(null);
+                          } else {
+                            setActiveTool('text');
+                            setIsDrawingMode(false);
+                          }
+                        }}
+                        variant={activeTool === 'text' ? 'default' : 'outline'}
+                        size='sm'
+                      >
+                        <Type className='h-4 w-4 mr-2' />
+                        Text
+                      </Button>
+                      {activeTool === 'text' && (
+                        <div className='flex gap-2'>
+                          <Input
+                            placeholder='Enter text'
+                            value={textToAdd}
+                            onChange={(e) => setTextToAdd(e.target.value)}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter' && !e.shiftKey) {
+                                e.preventDefault();
+                                handleAddText();
+                                setTextToAdd('');
+                                setActiveTool(null);
+                              }
+                            }}
+                            className='w-40'
+                            autoFocus
+                          />
+                          <Button
+                            onClick={() => {
+                              handleAddText();
+                              setTextToAdd('');
+                              setActiveTool(null);
+                            }}
+                            size='sm'
+                            disabled={!textToAdd.trim()}
+                          >
+                            Add
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Image Tool */}
+                    <Button
+                      onClick={() => imageInputRef.current?.click()}
+                      variant={activeTool === 'image' ? 'default' : 'outline'}
+                      size='sm'
+                    >
+                      <ImageIcon className='h-4 w-4 mr-2' />
+                      Image
+                    </Button>
+                    <input
+                      type='file'
+                      accept='image/*'
+                      ref={imageInputRef}
+                      className='hidden'
+                      onChange={handleAddImage}
+                    />
+
+                    {/* Signature Tool */}
+                    <Button
+                      onClick={() => setShowSignatureDialog(true)}
+                      variant='outline'
+                      size='sm'
+                    >
+                      <PenTool className='h-4 w-4 mr-2' />
+                      Signature
+                    </Button>
+
+                    {/* Drawing Tool */}
+                    <Button
+                      onClick={() => {
+                        if (isDrawingMode) {
+                          finishDrawing();
+                        } else {
+                          setIsDrawingMode(true);
+                          setActiveTool('drawing');
+                          setSelectedElementId(null);
+                        }
+                      }}
+                      variant={isDrawingMode ? 'default' : 'outline'}
+                      size='sm'
+                    >
+                      <PenTool className='h-4 w-4 mr-2' />
+                      {isDrawingMode ? 'Finish Draw' : 'Draw'}
+                    </Button>
+
+                    {/* Whiteout Tool */}
+                    <Button
+                      onClick={() => {
+                        handleAddWhiteout();
+                      }}
+                      variant={
+                        activeTool === 'whiteout' ? 'default' : 'outline'
+                      }
+                      size='sm'
+                    >
+                      <Eraser className='h-4 w-4 mr-2' />
+                      Whiteout
+                    </Button>
+
+                    {/* Shapes */}
+                    <Button
+                      onClick={() => handleAddShape('rect')}
+                      variant='outline'
+                      size='sm'
+                    >
+                      <Square className='h-4 w-4 mr-2' />
+                      Rectangle
+                    </Button>
+                    <Button
+                      onClick={() => handleAddShape('circle')}
+                      variant='outline'
+                      size='sm'
+                    >
+                      <Square className='h-4 w-4 mr-2' />
+                      Circle
+                    </Button>
+                  </div>
+
+                  {isDrawingMode && (
+                    <div className='mt-3 p-2 bg-muted rounded flex items-center justify-between'>
+                      <p className='text-xs text-muted-foreground'>
+                        Click and drag on the PDF to draw. Click "Finish Draw"
+                        when done.
+                      </p>
+                      <div className='flex gap-2'>
+                        <Button
+                          onClick={() => finishDrawing(true)}
+                          size='sm'
+                          variant='outline'
+                        >
+                          <Save className='h-3 w-3 mr-1' />
+                          Save as Signature
+                        </Button>
+                        <Button
+                          onClick={() => finishDrawing()}
+                          size='sm'
+                          variant='outline'
+                        >
+                          Finish
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
               {/* PDF Viewer with Overlay */}
               <div
                 ref={pageContainerRef}
@@ -735,6 +1048,15 @@ export const EditPdf = () => {
                                 }}
                               />
                             )}
+                            {element.type === 'whiteout' && (
+                              <div
+                                className='w-full h-full'
+                                style={{
+                                  backgroundColor: '#FFFFFF',
+                                  border: '1px solid #ccc',
+                                }}
+                              />
+                            )}
                             {selectedElementId === element.id && (
                               <button
                                 onClick={(e) => {
@@ -774,29 +1096,8 @@ export const EditPdf = () => {
                   )}
               </div>
 
-              {numPages && (
-                <p className='text-sm text-muted-foreground'>
-                  {t('tools.edit_pdf.total_pages')}: {numPages}
-                </p>
-              )}
-
-              <Separator className='my-2' />
-
-              <div className='w-full'>
-                <Label>{t('tools.edit_pdf.page_number')}</Label>
-                <Input
-                  type='number'
-                  min={1}
-                  max={numPages || 1}
-                  value={pageNumber}
-                  onChange={(e) => setPageNumber(Number(e.target.value))}
-                />
-                <p className='text-xs text-muted-foreground mt-1'>
-                  Elements will be added to the currently selected page
-                </p>
-              </div>
-
-              <div className='w-full flex flex-col gap-4 mt-4'>
+              {/* Legacy UI - keeping for reference but will be removed */}
+              <div className='w-full flex flex-col gap-4 mt-4 hidden'>
                 {/* Add Text */}
                 <div>
                   <Label>{t('tools.edit_pdf.add_text_label')}</Label>
@@ -930,6 +1231,72 @@ export const EditPdf = () => {
           )}
         </div>
       </div>
+
+      {/* Signature Dialog */}
+      <Dialog open={showSignatureDialog} onOpenChange={setShowSignatureDialog}>
+        <DialogContent className='max-w-2xl'>
+          <DialogHeader>
+            <DialogTitle>Saved Signatures</DialogTitle>
+            <DialogDescription>
+              Select a saved signature to use, or draw a new one
+            </DialogDescription>
+          </DialogHeader>
+          <div className='mt-4 space-y-4'>
+            {/* Draw New Signature */}
+            <div>
+              <Button
+                onClick={() => {
+                  setShowSignatureDialog(false);
+                  setIsDrawingMode(true);
+                  setActiveTool('drawing');
+                }}
+                variant='outline'
+                className='w-full'
+              >
+                <PenTool className='h-4 w-4 mr-2' />
+                Draw New Signature
+              </Button>
+            </div>
+
+            {/* Saved Signatures */}
+            {savedSignatures.length > 0 && (
+              <div>
+                <Label className='mb-2 block'>Saved Signatures</Label>
+                <div className='grid grid-cols-2 md:grid-cols-3 gap-4'>
+                  {savedSignatures.map((signature, index) => (
+                    <div
+                      key={index}
+                      className='relative border rounded-lg p-2 hover:bg-muted cursor-pointer group'
+                      onClick={() => applySavedSignature(signature)}
+                    >
+                      <img
+                        src={signature}
+                        alt={`Signature ${index + 1}`}
+                        className='w-full h-20 object-contain'
+                      />
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          deleteSignature(index);
+                        }}
+                        className='absolute top-1 right-1 opacity-0 group-hover:opacity-100 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600 transition-opacity'
+                      >
+                        <X className='h-3 w-3' />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {savedSignatures.length === 0 && (
+              <p className='text-sm text-muted-foreground text-center py-4'>
+                No saved signatures. Draw a new one to get started.
+              </p>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </ToolPageLayout>
   );
 };
