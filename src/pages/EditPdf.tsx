@@ -26,7 +26,6 @@ import {
   PenTool,
   Trash2,
   Eraser,
-  Save,
   X,
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
@@ -101,6 +100,13 @@ export const EditPdf = () => {
   const [activeTool, setActiveTool] = useState<
     'text' | 'image' | 'shape' | 'drawing' | 'whiteout' | null
   >(null);
+  const [textInputPos, setTextInputPos] = useState<{
+    x: number;
+    y: number;
+  } | null>(null);
+  const [isCreatingSignature, setIsCreatingSignature] = useState(false);
+  const signatureCanvasRef = useRef<HTMLCanvasElement>(null);
+  const [isSignatureDrawing, setIsSignatureDrawing] = useState(false);
 
   // Load saved signatures from localStorage on mount
   useEffect(() => {
@@ -239,13 +245,13 @@ export const EditPdf = () => {
   };
 
   const handleAddText = () => {
-    if (!textToAdd.trim()) return;
+    if (!textToAdd.trim() || !textInputPos) return;
 
     const newElement: Element = {
       id: `text-${Date.now()}`,
       type: 'text',
-      x: 50,
-      y: 50,
+      x: textInputPos.x,
+      y: textInputPos.y,
       width: 200,
       height: 30,
       pageNumber: pageNumber,
@@ -256,6 +262,8 @@ export const EditPdf = () => {
 
     setElements([...elements, newElement]);
     setTextToAdd('');
+    setTextInputPos(null);
+    setActiveTool(null);
     toast({
       title: t('common.success'),
       description: t('tools.edit_pdf.text_added'),
@@ -397,6 +405,86 @@ export const EditPdf = () => {
     setIsDrawing(false);
     lastPointRef.current = null;
     // Don't clear canvas or add to elements here - let user finish drawing first
+  };
+
+  // Signature Drawing functions
+  const startSignatureDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    setIsSignatureDrawing(true);
+    const canvas = signatureCanvasRef.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    lastPointRef.current = { x, y };
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+  };
+
+  const drawSignature = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (!isSignatureDrawing || !signatureCanvasRef.current || !lastPointRef.current)
+      return;
+    const canvas = signatureCanvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    ctx.lineTo(x, y);
+    ctx.strokeStyle = '#000000';
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    lastPointRef.current = { x, y };
+  };
+
+  const stopSignatureDrawing = () => {
+    if (!isSignatureDrawing) return;
+    setIsSignatureDrawing(false);
+    lastPointRef.current = null;
+  };
+
+  const clearSignatureCanvas = () => {
+    const canvas = signatureCanvasRef.current;
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    }
+  };
+
+  const handleSaveNewSignature = () => {
+    const canvas = signatureCanvasRef.current;
+    if (!canvas) return;
+
+    // Check if empty
+    const ctx = canvas.getContext('2d');
+    const imageData = ctx?.getImageData(0, 0, canvas.width, canvas.height);
+    const hasContent = imageData?.data.some((pixel, index) => {
+      return index % 4 === 3 && pixel > 0;
+    });
+
+    if (hasContent) {
+      const dataUrl = canvas.toDataURL();
+      saveSignature(dataUrl);
+      setIsCreatingSignature(false);
+    } else {
+      toast({
+        title: t('common.error'),
+        description: 'Please draw a signature first',
+        variant: 'destructive',
+      });
+    }
   };
 
   const finishDrawing = (saveAsSignature = false) => {
@@ -761,53 +849,25 @@ export const EditPdf = () => {
                   {/* Toolbar Buttons */}
                   <div className='flex flex-wrap gap-2'>
                     {/* Text Tool */}
-                    <div className='flex flex-col gap-1'>
-                      <Button
-                        onClick={() => {
-                          if (activeTool === 'text') {
-                            setActiveTool(null);
-                          } else {
-                            setActiveTool('text');
-                            setIsDrawingMode(false);
-                          }
-                        }}
-                        variant={activeTool === 'text' ? 'default' : 'outline'}
-                        size='sm'
-                      >
-                        <Type className='h-4 w-4 mr-2' />
-                        Text
-                      </Button>
-                      {activeTool === 'text' && (
-                        <div className='flex gap-2'>
-                          <Input
-                            placeholder='Enter text'
-                            value={textToAdd}
-                            onChange={(e) => setTextToAdd(e.target.value)}
-                            onKeyDown={(e) => {
-                              if (e.key === 'Enter' && !e.shiftKey) {
-                                e.preventDefault();
-                                handleAddText();
-                                setTextToAdd('');
-                                setActiveTool(null);
-                              }
-                            }}
-                            className='w-40'
-                            autoFocus
-                          />
-                          <Button
-                            onClick={() => {
-                              handleAddText();
-                              setTextToAdd('');
-                              setActiveTool(null);
-                            }}
-                            size='sm'
-                            disabled={!textToAdd.trim()}
-                          >
-                            Add
-                          </Button>
-                        </div>
-                      )}
-                    </div>
+                    <Button
+                      onClick={() => {
+                        if (activeTool === 'text') {
+                          setActiveTool(null);
+                          setTextInputPos(null);
+                        } else {
+                          setActiveTool('text');
+                          setIsDrawingMode(false);
+                          toast({
+                            description: 'Click anywhere on the PDF to add text',
+                          });
+                        }
+                      }}
+                      variant={activeTool === 'text' ? 'default' : 'outline'}
+                      size='sm'
+                    >
+                      <Type className='h-4 w-4 mr-2' />
+                      Text
+                    </Button>
 
                     {/* Image Tool */}
                     <Button
@@ -895,14 +955,6 @@ export const EditPdf = () => {
                       </p>
                       <div className='flex gap-2'>
                         <Button
-                          onClick={() => finishDrawing(true)}
-                          size='sm'
-                          variant='outline'
-                        >
-                          <Save className='h-3 w-3 mr-1' />
-                          Save as Signature
-                        </Button>
-                        <Button
                           onClick={() => finishDrawing()}
                           size='sm'
                           variant='outline'
@@ -942,8 +994,53 @@ export const EditPdf = () => {
                       width: `${pageDimensions.width}px`,
                       height: `${pageDimensions.height}px`,
                       pointerEvents: isDrawingMode ? 'none' : 'auto',
+                      cursor: activeTool === 'text' ? 'text' : 'default',
+                    }}
+                    onClick={(e) => {
+                      if (activeTool === 'text' && !textInputPos) {
+                        const rect = e.currentTarget.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        setTextInputPos({ x, y });
+                      }
                     }}
                   >
+                    {textInputPos && (
+                      <div
+                        style={{
+                          position: 'absolute',
+                          left: textInputPos.x,
+                          top: textInputPos.y,
+                          zIndex: 50,
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <Input
+                          placeholder='Enter text'
+                          value={textToAdd}
+                          onChange={(e) => setTextToAdd(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' && !e.shiftKey) {
+                              e.preventDefault();
+                              handleAddText();
+                            }
+                            if (e.key === 'Escape') {
+                              setTextInputPos(null);
+                              setTextToAdd('');
+                            }
+                          }}
+                          onBlur={() => {
+                            if (textToAdd.trim()) {
+                              handleAddText();
+                            } else {
+                              setTextInputPos(null);
+                            }
+                          }}
+                          className='w-48 bg-white shadow-lg'
+                          autoFocus
+                        />
+                      </div>
+                    )}
                     {elements
                       .filter((element) => element.pageNumber === pageNumber)
                       .map((element) => (
@@ -1063,9 +1160,10 @@ export const EditPdf = () => {
                                   e.stopPropagation();
                                   handleDeleteElement(element.id);
                                 }}
-                                className='absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600'
+                                className='absolute -top-3 -right-3 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 shadow-md z-50'
+                                title='Delete element'
                               >
-                                <Trash2 className='w-3 h-3' />
+                                <Trash2 className='w-3 h-4' />
                               </button>
                             )}
                           </div>
@@ -1233,66 +1331,106 @@ export const EditPdf = () => {
       </div>
 
       {/* Signature Dialog */}
-      <Dialog open={showSignatureDialog} onOpenChange={setShowSignatureDialog}>
+      <Dialog
+        open={showSignatureDialog}
+        onOpenChange={(open) => {
+          setShowSignatureDialog(open);
+          if (!open) setIsCreatingSignature(false);
+        }}
+      >
         <DialogContent className='max-w-2xl'>
           <DialogHeader>
-            <DialogTitle>Saved Signatures</DialogTitle>
+            <DialogTitle>
+              {isCreatingSignature ? 'Draw New Signature' : 'Saved Signatures'}
+            </DialogTitle>
             <DialogDescription>
-              Select a saved signature to use, or draw a new one
+              {isCreatingSignature
+                ? 'Draw your signature below'
+                : 'Select a saved signature to use, or draw a new one'}
             </DialogDescription>
           </DialogHeader>
           <div className='mt-4 space-y-4'>
-            {/* Draw New Signature */}
-            <div>
-              <Button
-                onClick={() => {
-                  setShowSignatureDialog(false);
-                  setIsDrawingMode(true);
-                  setActiveTool('drawing');
-                }}
-                variant='outline'
-                className='w-full'
-              >
-                <PenTool className='h-4 w-4 mr-2' />
-                Draw New Signature
-              </Button>
-            </div>
-
-            {/* Saved Signatures */}
-            {savedSignatures.length > 0 && (
-              <div>
-                <Label className='mb-2 block'>Saved Signatures</Label>
-                <div className='grid grid-cols-2 md:grid-cols-3 gap-4'>
-                  {savedSignatures.map((signature, index) => (
-                    <div
-                      key={index}
-                      className='relative border rounded-lg p-2 hover:bg-muted cursor-pointer group'
-                      onClick={() => applySavedSignature(signature)}
+            {isCreatingSignature ? (
+              <div className='flex flex-col gap-4'>
+                <div className='border rounded-lg bg-white h-60 w-full flex items-center justify-center overflow-hidden'>
+                  <canvas
+                    ref={signatureCanvasRef}
+                    width={600}
+                    height={240}
+                    className='cursor-crosshair touch-none'
+                    onMouseDown={startSignatureDrawing}
+                    onMouseMove={drawSignature}
+                    onMouseUp={stopSignatureDrawing}
+                    onMouseLeave={stopSignatureDrawing}
+                  />
+                </div>
+                <div className='flex justify-between'>
+                  <Button variant='outline' onClick={clearSignatureCanvas}>
+                    <Eraser className='h-4 w-4 mr-2' />
+                    Clear
+                  </Button>
+                  <div className='flex gap-2'>
+                    <Button
+                      variant='ghost'
+                      onClick={() => setIsCreatingSignature(false)}
                     >
-                      <img
-                        src={signature}
-                        alt={`Signature ${index + 1}`}
-                        className='w-full h-20 object-contain'
-                      />
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          deleteSignature(index);
-                        }}
-                        className='absolute top-1 right-1 opacity-0 group-hover:opacity-100 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600 transition-opacity'
-                      >
-                        <X className='h-3 w-3' />
-                      </button>
-                    </div>
-                  ))}
+                      Cancel
+                    </Button>
+                    <Button onClick={handleSaveNewSignature}>Save</Button>
+                  </div>
                 </div>
               </div>
-            )}
+            ) : (
+              <>
+                {/* Draw New Signature */}
+                <div>
+                  <Button
+                    onClick={() => setIsCreatingSignature(true)}
+                    variant='outline'
+                    className='w-full'
+                  >
+                    <PenTool className='h-4 w-4 mr-2' />
+                    Draw New Signature
+                  </Button>
+                </div>
 
-            {savedSignatures.length === 0 && (
-              <p className='text-sm text-muted-foreground text-center py-4'>
-                No saved signatures. Draw a new one to get started.
-              </p>
+                {/* Saved Signatures */}
+                {savedSignatures.length > 0 && (
+                  <div>
+                    <Label className='mb-2 block'>Saved Signatures</Label>
+                    <div className='grid grid-cols-2 md:grid-cols-3 gap-4'>
+                      {savedSignatures.map((signature, index) => (
+                        <div
+                          key={index}
+                          className='relative border rounded-lg p-2 hover:bg-muted cursor-pointer group'
+                          onClick={() => applySavedSignature(signature)}
+                        >
+                          <img
+                            src={signature}
+                            alt={`Signature ${index + 1}`}
+                            className='w-full h-20 object-contain'
+                          />
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              deleteSignature(index);
+                            }}
+                            className='absolute top-1 right-1 opacity-0 group-hover:opacity-100 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600 transition-opacity'
+                          >
+                            <X className='h-3 w-3' />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {savedSignatures.length === 0 && (
+                  <p className='text-sm text-muted-foreground text-center py-4'>
+                    No saved signatures. Draw a new one to get started.
+                  </p>
+                )}
+              </>
             )}
           </div>
         </DialogContent>
