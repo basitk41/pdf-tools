@@ -1,17 +1,45 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Mail } from 'lucide-react';
+import { Mail, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { motion } from 'framer-motion';
+import { toast } from 'sonner';
+import { supabase } from '@/services/supabaseClient';
 
 const Contact = () => {
   const { t } = useTranslation();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Handle form submission logic here
-    alert(t('contact_page.success_message'));
+    setIsSubmitting(true);
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData.entries());
+
+    const { name, email, subject, message } = data;
+
+    try {
+      const { error } = await supabase.from('contact_requests').insert([
+        {
+          name,
+          email,
+          subject,
+          message,
+        },
+      ]);
+
+      if (error) throw error;
+
+      toast.success(t('contact_page.success_message'));
+      (e.target as HTMLFormElement).reset();
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast.error('Failed to send message. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const containerVariants = {
@@ -72,6 +100,7 @@ const Contact = () => {
               <Input
                 type='text'
                 id='name'
+                name='name'
                 placeholder={t('contact_page.form.name')}
                 required
                 className='w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white'
@@ -87,6 +116,7 @@ const Contact = () => {
               <Input
                 type='email'
                 id='email'
+                name='email'
                 placeholder={t('contact_page.form.email')}
                 required
                 className='w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white'
@@ -102,6 +132,7 @@ const Contact = () => {
               <Input
                 type='text'
                 id='subject'
+                name='subject'
                 placeholder={t('contact_page.form.subject')}
                 required
                 className='w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white'
@@ -116,6 +147,7 @@ const Contact = () => {
               </label>
               <Textarea
                 id='message'
+                name='message'
                 rows={6}
                 placeholder={t('contact_page.form.message')}
                 required
@@ -132,9 +164,17 @@ const Contact = () => {
             >
               <Button
                 type='submit'
-                className='w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition duration-300 font-semibold text-lg'
+                disabled={isSubmitting}
+                className='w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition duration-300 font-semibold text-lg disabled:opacity-50 disabled:cursor-not-allowed'
               >
-                {t('contact_page.form.submit_button')}
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                    Sending...
+                  </>
+                ) : (
+                  t('contact_page.form.submit_button')
+                )}
               </Button>
             </motion.div>
           </form>

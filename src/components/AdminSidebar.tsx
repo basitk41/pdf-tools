@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 import { Separator } from '../components/ui/separator';
-import { LayoutDashboard, Newspaper, Users, Settings } from 'lucide-react';
+import { LayoutDashboard, Newspaper, Users, Settings, MessageSquareText } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import {
   Sheet,
@@ -56,6 +56,15 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ loading }) => {
                 onClick={() => navigate('/admin/blogs')}
               >
                 <Newspaper className='h-4 w-4' /> Manage Blogs
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button
+                variant='ghost'
+                className='w-full justify-start flex items-center gap-2'
+                onClick={() => navigate('/admin/contact-requests')}
+              >
+                <MessageSquareText className='h-4 w-4' /> Contact Requests
               </Button>
             </SheetClose>
             <SheetClose asChild>
@@ -118,6 +127,13 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ loading }) => {
               onClick={() => navigate('/admin/blogs')}
             >
               <Newspaper className='h-4 w-4' /> Manage Blogs
+            </Button>
+            <Button
+              variant='ghost'
+              className='w-full justify-start flex items-center gap-2'
+              onClick={() => navigate('/admin/contact-requests')}
+            >
+              <MessageSquareText className='h-4 w-4' /> Contact Requests
             </Button>
             <Button
               variant='ghost'

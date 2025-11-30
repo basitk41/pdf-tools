@@ -23,6 +23,7 @@ import BlogManagement from './pages/BlogManagement'; // New import
 import BlogDetailPage from './pages/BlogDetailPage'; // New import
 import Blogs from './pages/Blogs'; // New import
 import BlogPublicDetailPage from './pages/BlogPublicDetailPage'; // New import
+import ContactRequests from './pages/ContactRequests'; // New import
 import ProtectedRoute from './components/ProtectedRoute';
 import { EditPdf } from './pages/EditPdf';
 
@@ -67,14 +68,22 @@ const App = () => (
           </ProtectedRoute>
         }
       />
-      <Route
-        path='/admin/blogs/:id'
-        element={
-          <ProtectedRoute>
-            <BlogDetailPage />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path='/admin/blogs/:id'
+          element={
+            <ProtectedRoute>
+              <BlogDetailPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/admin/contact-requests'
+          element={
+            <ProtectedRoute>
+              <ContactRequests />
+            </ProtectedRoute>
+          }
+        />
       {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
       <Route path='*' element={<NotFound />} />
     </Routes>
