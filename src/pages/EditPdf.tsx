@@ -513,14 +513,49 @@ export const EditPdf = () => {
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         const data = imageData.data;
 
-        // Simple background removal: make white/near-white pixels transparent
+        // Adaptive background removal
+        // 1. Sample corners to estimate background color
+        const corners = [
+          0, // Top-left
+          (canvas.width - 1) * 4, // Top-right
+          (canvas.height - 1) * canvas.width * 4, // Bottom-left
+          (canvas.height * canvas.width - 1) * 4, // Bottom-right
+        ];
+
+        let bgR = 0,
+          bgG = 0,
+          bgB = 0;
+        let samples = 0;
+
+        corners.forEach((idx) => {
+          if (idx < data.length) {
+            bgR += data[idx];
+            bgG += data[idx + 1];
+            bgB += data[idx + 2];
+            samples++;
+          }
+        });
+
+        // Average background luminance
+        const avgBgR = samples ? bgR / samples : 255;
+        const avgBgG = samples ? bgG / samples : 255;
+        const avgBgB = samples ? bgB / samples : 255;
+        const bgLum = 0.299 * avgBgR + 0.587 * avgBgG + 0.114 * avgBgB;
+
+        // Set threshold slightly below background (fallback to 200 if background is dark)
+        const threshold = bgLum > 100 ? bgLum - 40 : 200;
+
         for (let i = 0; i < data.length; i += 4) {
           const r = data[i];
           const g = data[i + 1];
           const b = data[i + 2];
 
-          if (r > 240 && g > 240 && b > 240) {
-            data[i + 3] = 0; // Alpha to 0
+          // Calculate luminance
+          const lum = 0.299 * r + 0.587 * g + 0.114 * b;
+
+          // If pixel is lighter than threshold, make it transparent
+          if (lum > threshold) {
+            data[i + 3] = 0;
           }
         }
 
