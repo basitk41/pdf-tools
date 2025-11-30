@@ -643,14 +643,23 @@ export const EditPdf = () => {
     setIsLoading(true);
     try {
       const arrayBuffer = await file.arrayBuffer();
-      const pdfDoc = await PDFDocument.load(arrayBuffer);
-      const pages = pdfDoc.getPages();
-      const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
-      const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
-      const timesFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
-      const timesFontBold = await pdfDoc.embedFont(StandardFonts.TimesRomanBold);
-      const courierFont = await pdfDoc.embedFont(StandardFonts.Courier);
-      const courierFontBold = await pdfDoc.embedFont(StandardFonts.CourierBold);
+
+      // Load the PDF using pdfjs to render pages as images
+      // This bypasses encryption restrictions for viewing
+      const loadingTask = pdfjs.getDocument(arrayBuffer);
+      const pdf = await loadingTask.promise;
+      const numPages = pdf.numPages;
+
+      // Create a new PDF document
+      const newPdfDoc = await PDFDocument.create();
+
+      // Embed fonts
+      const font = await newPdfDoc.embedFont(StandardFonts.Helvetica);
+      const fontBold = await newPdfDoc.embedFont(StandardFonts.HelveticaBold);
+      const timesFont = await newPdfDoc.embedFont(StandardFonts.TimesRoman);
+      const timesFontBold = await newPdfDoc.embedFont(StandardFonts.TimesRomanBold);
+      const courierFont = await newPdfDoc.embedFont(StandardFonts.Courier);
+      const courierFontBold = await newPdfDoc.embedFont(StandardFonts.CourierBold);
 
       const getFont = (fontName?: string, fontWeight?: string) => {
         const isBold = fontWeight === 'bold';
@@ -664,39 +673,52 @@ export const EditPdf = () => {
         }
       };
 
-      // Group elements by page number
-      const elementsByPage = elements.reduce((acc, element) => {
-        const pageIndex = element.pageNumber - 1;
-        if (!acc[pageIndex]) {
-          acc[pageIndex] = [];
-        }
-        acc[pageIndex].push(element);
-        return acc;
-      }, {} as Record<number, Element[]>);
+      // Process each page
+      for (let i = 1; i <= numPages; i++) {
+        const page = await pdf.getPage(i);
 
-      // Process elements for each page
-      for (const [pageIndexStr, pageElements] of Object.entries(
-        elementsByPage
-      )) {
-        const pageIndex = parseInt(pageIndexStr);
-        if (pageIndex < 0 || pageIndex >= pages.length) {
-          console.warn(`Skipping elements for invalid page ${pageIndex + 1}`);
-          continue;
-        }
+        // Render page to canvas at high quality (scale 2.0)
+        const viewport = page.getViewport({ scale: 2.0 });
+        const canvas = document.createElement('canvas');
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+        const context = canvas.getContext('2d');
 
-        const selectedPage = pages[pageIndex];
+        if (!context) continue;
 
-        // Get page dimensions for coordinate conversion
-        const pageWidth = selectedPage.getWidth();
-        const pageHeight = selectedPage.getHeight();
-        const renderedWidth = 800; // Same as display width
-        const pageScale = renderedWidth / pageWidth;
+        await page.render({
+          canvasContext: context,
+          viewport: viewport,
+        }).promise;
 
-        // Process each element on this page
+        // Convert canvas to image
+        const imgDataUrl = canvas.toDataURL('image/jpeg', 0.8);
+        const img = await newPdfDoc.embedJpg(imgDataUrl);
+
+        // Add page to new PDF with original dimensions
+        const originalViewport = page.getViewport({ scale: 1.0 });
+        const { width, height } = originalViewport;
+        const newPage = newPdfDoc.addPage([width, height]);
+
+        // Draw the rendered page image
+        newPage.drawImage(img, {
+          x: 0,
+          y: 0,
+          width: width,
+          height: height,
+        });
+
+        // Add user elements for this page
+        const pageElements = elements.filter((el) => el.pageNumber === i);
+
+        // Calculate scale factor (elements are positioned based on 800px width)
+        const renderedWidth = 800;
+        const pageScale = renderedWidth / width;
+
         for (const element of pageElements) {
-          // Convert HTML coordinates to PDF coordinates for this specific page
+          // Convert HTML coordinates to PDF coordinates
           const pdfX = element.x / pageScale;
-          const pdfY = pageHeight - element.y / pageScale;
+          const pdfY = height - element.y / pageScale;
 
           switch (element.type) {
             case 'text':
@@ -706,9 +728,9 @@ export const EditPdf = () => {
                 const rgbColor = hexToRgb(color);
                 const textFont = getFont(element.fontFamily, element.fontWeight);
 
-                selectedPage.drawText(element.text, {
+                newPage.drawText(element.text, {
                   x: pdfX,
-                  y: pdfY - fontSize, // Adjust for text baseline
+                  y: pdfY - fontSize,
                   size: fontSize,
                   font: textFont,
                   color: rgbColor,
@@ -723,24 +745,20 @@ export const EditPdf = () => {
                     res.arrayBuffer()
                   );
                   let img;
-
-                  // Try PNG first, then JPG
                   try {
-                    img = await pdfDoc.embedPng(imageBytes);
+                    img = await newPdfDoc.embedPng(imageBytes);
                   } catch {
-                    img = await pdfDoc.embedJpg(imageBytes);
+                    img = await newPdfDoc.embedJpg(imageBytes);
                   }
 
-                  const width = element.width ? element.width / pageScale : 100;
-                  const height = element.height
-                    ? element.height / pageScale
-                    : 100;
+                  const elWidth = element.width ? element.width / pageScale : 100;
+                  const elHeight = element.height ? element.height / pageScale : 100;
 
-                  selectedPage.drawImage(img, {
+                  newPage.drawImage(img, {
                     x: pdfX,
-                    y: pdfY - height, // Adjust for image origin
-                    width: width,
-                    height: height,
+                    y: pdfY - elHeight,
+                    width: elWidth,
+                    height: elHeight,
                   });
                 } catch (error) {
                   console.error('Error embedding image:', error);
@@ -755,23 +773,20 @@ export const EditPdf = () => {
                     res.arrayBuffer()
                   );
                   let img;
-
                   try {
-                    img = await pdfDoc.embedPng(imageBytes);
+                    img = await newPdfDoc.embedPng(imageBytes);
                   } catch {
-                    img = await pdfDoc.embedJpg(imageBytes);
+                    img = await newPdfDoc.embedJpg(imageBytes);
                   }
 
-                  const width = element.width ? element.width / pageScale : 100;
-                  const height = element.height
-                    ? element.height / pageScale
-                    : 100;
+                  const elWidth = element.width ? element.width / pageScale : 100;
+                  const elHeight = element.height ? element.height / pageScale : 100;
 
-                  selectedPage.drawImage(img, {
+                  newPage.drawImage(img, {
                     x: pdfX,
-                    y: pdfY - height,
-                    width: width,
-                    height: height,
+                    y: pdfY - elHeight,
+                    width: elWidth,
+                    height: elHeight,
                   });
                 } catch (error) {
                   console.error('Error embedding drawing:', error);
@@ -780,34 +795,25 @@ export const EditPdf = () => {
               break;
 
             case 'shape':
-              if (
-                element.shapeType === 'rect' &&
-                element.width &&
-                element.height
-              ) {
-                const width = element.width / pageScale;
-                const height = element.height / pageScale;
+              if (element.shapeType === 'rect' && element.width && element.height) {
+                const elWidth = element.width / pageScale;
+                const elHeight = element.height / pageScale;
                 const color = element.shapeColor || '#FF0000';
                 const rgbColor = hexToRgb(color);
 
-                selectedPage.drawRectangle({
+                newPage.drawRectangle({
                   x: pdfX,
-                  y: pdfY - height,
-                  width: width,
-                  height: height,
+                  y: pdfY - elHeight,
+                  width: elWidth,
+                  height: elHeight,
                   color: rgbColor,
                 });
-              } else if (
-                element.shapeType === 'circle' &&
-                element.width &&
-                element.height
-              ) {
+              } else if (element.shapeType === 'circle' && element.width) {
                 const radius = element.width / pageScale / 2;
                 const color = element.shapeColor || '#FF0000';
                 const rgbColor = hexToRgb(color);
 
-                // Draw circle as a path
-                selectedPage.drawCircle({
+                newPage.drawCircle({
                   x: pdfX + radius,
                   y: pdfY - radius,
                   size: radius,
@@ -818,15 +824,15 @@ export const EditPdf = () => {
 
             case 'whiteout':
               if (element.width && element.height) {
-                const width = element.width / pageScale;
-                const height = element.height / pageScale;
+                const elWidth = element.width / pageScale;
+                const elHeight = element.height / pageScale;
 
-                selectedPage.drawRectangle({
+                newPage.drawRectangle({
                   x: pdfX,
-                  y: pdfY - height,
-                  width: width,
-                  height: height,
-                  color: rgb(1, 1, 1), // White
+                  y: pdfY - elHeight,
+                  width: elWidth,
+                  height: elHeight,
+                  color: rgb(1, 1, 1),
                 });
               }
               break;
@@ -834,10 +840,8 @@ export const EditPdf = () => {
         }
       }
 
-      const pdfBytes = await pdfDoc.save();
-      const blob = new Blob([pdfBytes as unknown as BlobPart], {
-        type: 'application/pdf',
-      });
+      const pdfBytes = await newPdfDoc.save();
+      const blob = new Blob([pdfBytes as any], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
 
       const link = document.createElement('a');
