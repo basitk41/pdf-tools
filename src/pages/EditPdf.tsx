@@ -50,6 +50,7 @@ type Element = {
   text?: string;
   fontSize?: number;
   color?: string;
+  fontFamily?: string;
   // Image specific
   dataUrl?: string;
   // Shape specific
@@ -107,6 +108,9 @@ export const EditPdf = () => {
   const [isCreatingSignature, setIsCreatingSignature] = useState(false);
   const signatureCanvasRef = useRef<HTMLCanvasElement>(null);
   const [isSignatureDrawing, setIsSignatureDrawing] = useState(false);
+  const [textColor, setTextColor] = useState('#000000');
+  const [textFont, setTextFont] = useState('Helvetica');
+  const signatureFileInputRef = useRef<HTMLInputElement>(null);
 
   // Load saved signatures from localStorage on mount
   useEffect(() => {
@@ -257,7 +261,8 @@ export const EditPdf = () => {
       pageNumber: pageNumber,
       text: textToAdd,
       fontSize: 18,
-      color: '#0000E6',
+      color: textColor,
+      fontFamily: textFont,
     };
 
     setElements([...elements, newElement]);
@@ -487,6 +492,49 @@ export const EditPdf = () => {
     }
   };
 
+  const handleUploadSignature = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        ctx.drawImage(img, 0, 0);
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
+
+        // Simple background removal: make white/near-white pixels transparent
+        for (let i = 0; i < data.length; i += 4) {
+          const r = data[i];
+          const g = data[i + 1];
+          const b = data[i + 2];
+
+          if (r > 240 && g > 240 && b > 240) {
+            data[i + 3] = 0; // Alpha to 0
+          }
+        }
+
+        ctx.putImageData(imageData, 0, 0);
+        const dataUrl = canvas.toDataURL();
+        saveSignature(dataUrl);
+        setIsCreatingSignature(false);
+        toast({
+          title: t('common.success'),
+          description: 'Signature uploaded and processed',
+        });
+      };
+      img.src = event.target?.result as string;
+    };
+    reader.readAsDataURL(file);
+  };
+
   const finishDrawing = (saveAsSignature = false) => {
     if (!canvasRef.current) return;
     setIsDrawing(false);
@@ -559,7 +607,20 @@ export const EditPdf = () => {
       const arrayBuffer = await file.arrayBuffer();
       const pdfDoc = await PDFDocument.load(arrayBuffer);
       const pages = pdfDoc.getPages();
-      const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+      const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+      const timesFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+      const courierFont = await pdfDoc.embedFont(StandardFonts.Courier);
+
+      const getFont = (fontName?: string) => {
+        switch (fontName) {
+          case 'Times Roman':
+            return timesFont;
+          case 'Courier':
+            return courierFont;
+          default:
+            return font;
+        }
+      };
 
       // Group elements by page number
       const elementsByPage = elements.reduce((acc, element) => {
@@ -599,14 +660,15 @@ export const EditPdf = () => {
             case 'text':
               if (element.text) {
                 const fontSize = element.fontSize || 18;
-                const color = element.color || '#0000E6';
+                const color = element.color || '#000000';
                 const rgbColor = hexToRgb(color);
+                const textFont = getFont(element.fontFamily);
 
                 selectedPage.drawText(element.text, {
                   x: pdfX,
                   y: pdfY - fontSize, // Adjust for text baseline
                   size: fontSize,
-                  font: font,
+                  font: textFont,
                   color: rgbColor,
                 });
               }
@@ -849,25 +911,58 @@ export const EditPdf = () => {
                   {/* Toolbar Buttons */}
                   <div className='flex flex-wrap gap-2'>
                     {/* Text Tool */}
-                    <Button
-                      onClick={() => {
-                        if (activeTool === 'text') {
-                          setActiveTool(null);
-                          setTextInputPos(null);
-                        } else {
-                          setActiveTool('text');
-                          setIsDrawingMode(false);
-                          toast({
-                            description: 'Click anywhere on the PDF to add text',
-                          });
-                        }
-                      }}
-                      variant={activeTool === 'text' ? 'default' : 'outline'}
-                      size='sm'
-                    >
-                      <Type className='h-4 w-4 mr-2' />
-                      Text
-                    </Button>
+                    <div className='flex flex-col gap-2'>
+                      <Button
+                        onClick={() => {
+                          if (activeTool === 'text') {
+                            setActiveTool(null);
+                            setTextInputPos(null);
+                          } else {
+                            setActiveTool('text');
+                            setIsDrawingMode(false);
+                            toast({
+                              description:
+                                'Click anywhere on the PDF to add text',
+                            });
+                          }
+                        }}
+                        variant={activeTool === 'text' ? 'default' : 'outline'}
+                        size='sm'
+                      >
+                        <Type className='h-4 w-4 mr-2' />
+                        Text
+                      </Button>
+                      {activeTool === 'text' && (
+                        <div className='flex gap-2 items-center p-2 bg-muted rounded'>
+                          <div className='flex gap-1'>
+                            {['#000000', '#FF0000', '#00FF00', '#0000FF'].map(
+                              (color) => (
+                                <button
+                                  key={color}
+                                  className={`w-6 h-6 rounded-full border ${
+                                    textColor === color
+                                      ? 'ring-2 ring-offset-1 ring-primary'
+                                      : ''
+                                  }`}
+                                  style={{ backgroundColor: color }}
+                                  onClick={() => setTextColor(color)}
+                                />
+                              )
+                            )}
+                          </div>
+                          <Separator orientation='vertical' className='h-6' />
+                          <select
+                            className='h-8 rounded border border-input bg-background px-2 text-sm'
+                            value={textFont}
+                            onChange={(e) => setTextFont(e.target.value)}
+                          >
+                            <option value='Helvetica'>Helvetica</option>
+                            <option value='Times Roman'>Times Roman</option>
+                            <option value='Courier'>Courier</option>
+                          </select>
+                        </div>
+                      )}
+                    </div>
 
                     {/* Image Tool */}
                     <Button
@@ -1108,13 +1203,18 @@ export const EditPdf = () => {
                                   })
                                 }
                                 className='w-full h-full resize-none border-none outline-none bg-transparent'
-                                style={{
-                                  fontSize: `${element.fontSize || 18}px`,
-                                  color: element.color || '#0000E6',
-                                  fontFamily: 'Arial, sans-serif',
-                                }}
-                                onClick={(e) => e.stopPropagation()}
-                              />
+                                  style={{
+                                    fontSize: `${element.fontSize || 18}px`,
+                                    color: element.color || '#000000',
+                                    fontFamily:
+                                      element.fontFamily === 'Times Roman'
+                                        ? 'Times New Roman, serif'
+                                        : element.fontFamily === 'Courier'
+                                        ? 'Courier New, monospace'
+                                        : 'Arial, sans-serif',
+                                  }}
+                                  onClick={(e) => e.stopPropagation()}
+                                />
                             )}
                             {element.type === 'image' && element.dataUrl && (
                               <img
@@ -1383,15 +1483,30 @@ export const EditPdf = () => {
             ) : (
               <>
                 {/* Draw New Signature */}
-                <div>
+                <div className='flex gap-2'>
                   <Button
                     onClick={() => setIsCreatingSignature(true)}
                     variant='outline'
-                    className='w-full'
+                    className='flex-1'
                   >
                     <PenTool className='h-4 w-4 mr-2' />
                     Draw New Signature
                   </Button>
+                  <Button
+                    onClick={() => signatureFileInputRef.current?.click()}
+                    variant='outline'
+                    className='flex-1'
+                  >
+                    <FileUp className='h-4 w-4 mr-2' />
+                    Upload Image
+                  </Button>
+                  <input
+                    type='file'
+                    accept='image/*'
+                    ref={signatureFileInputRef}
+                    className='hidden'
+                    onChange={handleUploadSignature}
+                  />
                 </div>
 
                 {/* Saved Signatures */}
