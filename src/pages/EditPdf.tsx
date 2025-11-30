@@ -51,6 +51,7 @@ type Element = {
   fontSize?: number;
   color?: string;
   fontFamily?: string;
+  fontWeight?: 'normal' | 'bold';
   // Image specific
   dataUrl?: string;
   // Shape specific
@@ -110,6 +111,7 @@ export const EditPdf = () => {
   const [isSignatureDrawing, setIsSignatureDrawing] = useState(false);
   const [textColor, setTextColor] = useState('#000000');
   const [textFont, setTextFont] = useState('Helvetica');
+  const [textSize, setTextSize] = useState(14);
   const signatureFileInputRef = useRef<HTMLInputElement>(null);
 
   // Load saved signatures from localStorage on mount
@@ -260,9 +262,10 @@ export const EditPdf = () => {
       height: 30,
       pageNumber: pageNumber,
       text: textToAdd,
-      fontSize: 18,
+      fontSize: textSize,
       color: textColor,
       fontFamily: textFont,
+      fontWeight: 'normal',
     };
 
     setElements([...elements, newElement]);
@@ -608,17 +611,21 @@ export const EditPdf = () => {
       const pdfDoc = await PDFDocument.load(arrayBuffer);
       const pages = pdfDoc.getPages();
       const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+      const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
       const timesFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+      const timesFontBold = await pdfDoc.embedFont(StandardFonts.TimesRomanBold);
       const courierFont = await pdfDoc.embedFont(StandardFonts.Courier);
+      const courierFontBold = await pdfDoc.embedFont(StandardFonts.CourierBold);
 
-      const getFont = (fontName?: string) => {
+      const getFont = (fontName?: string, fontWeight?: string) => {
+        const isBold = fontWeight === 'bold';
         switch (fontName) {
           case 'Times Roman':
-            return timesFont;
+            return isBold ? timesFontBold : timesFont;
           case 'Courier':
-            return courierFont;
+            return isBold ? courierFontBold : courierFont;
           default:
-            return font;
+            return isBold ? fontBold : font;
         }
       };
 
@@ -662,7 +669,7 @@ export const EditPdf = () => {
                 const fontSize = element.fontSize || 18;
                 const color = element.color || '#000000';
                 const rgbColor = hexToRgb(color);
-                const textFont = getFont(element.fontFamily);
+                const textFont = getFont(element.fontFamily, element.fontWeight);
 
                 selectedPage.drawText(element.text, {
                   x: pdfX,
@@ -960,6 +967,14 @@ export const EditPdf = () => {
                             <option value='Times Roman'>Times Roman</option>
                             <option value='Courier'>Courier</option>
                           </select>
+                          <Input
+                            type='number'
+                            min={8}
+                            max={72}
+                            value={textSize}
+                            onChange={(e) => setTextSize(Number(e.target.value))}
+                            className='w-16 h-8'
+                          />
                         </div>
                       )}
                     </div>
@@ -1097,6 +1112,8 @@ export const EditPdf = () => {
                         const x = e.clientX - rect.left;
                         const y = e.clientY - rect.top;
                         setTextInputPos({ x, y });
+                      } else if (selectedElementId) {
+                        setSelectedElementId(null);
                       }
                     }}
                   >
@@ -1193,7 +1210,124 @@ export const EditPdf = () => {
                             }
                           }}
                         >
-                          <div className='relative w-full h-full'>
+                          <div className='w-full h-full relative group'>
+                            {selectedElementId === element.id &&
+                              element.type === 'text' && (
+                                <div className='absolute -top-12 left-0 bg-white shadow-lg border rounded-md p-1 flex items-center gap-2 z-50 whitespace-nowrap'>
+                                  {/* Colors */}
+                                  <div className='flex gap-1'>
+                                    {[
+                                      '#000000',
+                                      '#FF0000',
+                                      '#00FF00',
+                                      '#0000FF',
+                                    ].map((color) => (
+                                      <button
+                                        key={color}
+                                        className={`w-4 h-4 rounded-full border ${
+                                          (element.color || '#000000') === color
+                                            ? 'ring-1 ring-offset-1 ring-primary'
+                                            : ''
+                                        }`}
+                                        style={{ backgroundColor: color }}
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleElementUpdate(element.id, {
+                                            color,
+                                          });
+                                        }}
+                                      />
+                                    ))}
+                                  </div>
+                                  <Separator
+                                    orientation='vertical'
+                                    className='h-4'
+                                  />
+                                  {/* Font Family */}
+                                  <select
+                                    className='h-6 text-xs rounded border border-input bg-background px-1'
+                                    value={element.fontFamily || 'Helvetica'}
+                                    onChange={(e) => {
+                                      e.stopPropagation();
+                                      handleElementUpdate(element.id, {
+                                        fontFamily: e.target.value,
+                                      });
+                                    }}
+                                    onClick={(e) => e.stopPropagation()}
+                                  >
+                                    <option value='Helvetica'>Helvetica</option>
+                                    <option value='Times Roman'>Times</option>
+                                    <option value='Courier'>Courier</option>
+                                  </select>
+                                  {/* Font Size */}
+                                  <input
+                                    type='number'
+                                    className='w-10 h-6 text-xs rounded border border-input bg-background px-1'
+                                    value={element.fontSize || 14}
+                                    onChange={(e) => {
+                                      e.stopPropagation();
+                                      handleElementUpdate(element.id, {
+                                        fontSize: Number(e.target.value),
+                                      });
+                                    }}
+                                    onClick={(e) => e.stopPropagation()}
+                                    min={8}
+                                    max={72}
+                                  />
+                                  {/* Bold Toggle */}
+                                  <Button
+                                    variant={
+                                      element.fontWeight === 'bold'
+                                        ? 'default'
+                                        : 'ghost'
+                                    }
+                                    size='icon'
+                                    className='h-6 w-6'
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleElementUpdate(element.id, {
+                                        fontWeight:
+                                          element.fontWeight === 'bold'
+                                            ? 'normal'
+                                            : 'bold',
+                                      });
+                                    }}
+                                  >
+                                    <span className='font-bold text-xs'>B</span>
+                                  </Button>
+                                  <Separator
+                                    orientation='vertical'
+                                    className='h-4'
+                                  />
+                                  {/* Delete */}
+                                  <Button
+                                    variant='ghost'
+                                    size='icon'
+                                    className='h-6 w-6 text-destructive hover:text-destructive'
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleDeleteElement(element.id);
+                                    }}
+                                  >
+                                    <Trash2 className='w-3 h-3' />
+                                  </Button>
+                                </div>
+                              )}
+
+                            {selectedElementId === element.id &&
+                              element.type !== 'text' && (
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleDeleteElement(element.id);
+                                  }}
+                                  className='absolute -top-3 -right-3 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 shadow-md z-50'
+                                  title='Delete element'
+                                >
+                                  <Trash2 className='w-3 h-4' />
+                                </button>
+                              )}
+
                             {element.type === 'text' && (
                               <textarea
                                 value={element.text || ''}
@@ -1203,23 +1337,24 @@ export const EditPdf = () => {
                                   })
                                 }
                                 className='w-full h-full resize-none border-none outline-none bg-transparent'
-                                  style={{
-                                    fontSize: `${element.fontSize || 18}px`,
-                                    color: element.color || '#000000',
-                                    fontFamily:
-                                      element.fontFamily === 'Times Roman'
-                                        ? 'Times New Roman, serif'
-                                        : element.fontFamily === 'Courier'
-                                        ? 'Courier New, monospace'
-                                        : 'Arial, sans-serif',
-                                  }}
-                                  onClick={(e) => e.stopPropagation()}
-                                />
+                                style={{
+                                  fontSize: `${element.fontSize || 18}px`,
+                                  color: element.color || '#000000',
+                                  fontFamily:
+                                    element.fontFamily === 'Times Roman'
+                                      ? 'Times New Roman, serif'
+                                      : element.fontFamily === 'Courier'
+                                      ? 'Courier New, monospace'
+                                      : 'Arial, sans-serif',
+                                  fontWeight: element.fontWeight || 'normal',
+                                }}
+                                onClick={(e) => e.stopPropagation()}
+                              />
                             )}
                             {element.type === 'image' && element.dataUrl && (
                               <img
                                 src={element.dataUrl}
-                                alt=''
+                                alt='Uploaded'
                                 className='w-full h-full object-contain'
                                 draggable={false}
                               />
@@ -1227,7 +1362,7 @@ export const EditPdf = () => {
                             {element.type === 'drawing' && element.dataUrl && (
                               <img
                                 src={element.dataUrl}
-                                alt=''
+                                alt='Drawing'
                                 className='w-full h-full object-contain'
                                 draggable={false}
                               />
@@ -1236,8 +1371,10 @@ export const EditPdf = () => {
                               <div
                                 className='w-full h-full'
                                 style={{
-                                  backgroundColor:
-                                    element.shapeColor || '#FF0000',
+                                  backgroundColor: 'transparent',
+                                  border: `2px solid ${
+                                    element.shapeColor || '#FF0000'
+                                  }`,
                                   borderRadius:
                                     element.shapeType === 'circle'
                                       ? '50%'
@@ -1246,15 +1383,6 @@ export const EditPdf = () => {
                               />
                             )}
                             {element.type === 'whiteout' && (
-                              <div
-                                className='w-full h-full'
-                                style={{
-                                  backgroundColor: '#FFFFFF',
-                                  border: '1px solid #ccc',
-                                }}
-                              />
-                            )}
-                            {selectedElementId === element.id && (
                               <button
                                 onClick={(e) => {
                                   e.stopPropagation();
